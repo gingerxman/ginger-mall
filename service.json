@@ -1,0 +1,33 @@
+{
+	"name": "github.com/gingerxman/ginger-mall",
+	"type": "golang-service",
+	"golang_type": "eel",
+	"default_port": 3132,
+	"envs": {
+		"production": [
+			"_SERVICE_HOST_PORT",
+			"_USE_WSGI_PROTOCAL",
+			"_SERVICE_MODE",
+			"WEAPP_DB_HOST"
+		],
+		"dev": [
+			"_SERVICE_MODE",
+			"_IS_WEIZOOM_DEV_VM",
+			"_SERVICE_HOST_PORT"
+		]
+	},
+	"hosts": {
+		"always": [
+			"etcd.weizoom.com"
+		],
+		"dev": [
+			"db.dev.com"
+		],
+		"production": [
+		]
+	},
+	"dev": {
+		"rebuild": "$standard",
+		"init": "$standard"
+	}
+}
