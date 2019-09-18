@@ -20,11 +20,11 @@ func (this *CorpRepository) GetCorpById(corpId int) *Corp {
 }
 
 //func (this *CorpRepository) GetCorpByUuid(uuid string) *Corp {
-//	resp, err := vanilla.NewResource(this.Ctx).LoginAsManager().Get("gskep", "corp.corp", vanilla.Map{
+//	resp, err := eel.NewResource(this.Ctx).LoginAsManager().Get("gskep", "corp.corp", eel.Map{
 //		"uuid": uuid,
 //	})
 //	if err != nil {
-//		beego.Error(err)
+//		eel.Logger.Error(err)
 //		return nil
 //	} else {
 //		respData := resp.Data()
@@ -38,10 +38,10 @@ func (this *CorpRepository) GetCorpById(corpId int) *Corp {
 //
 //func _getPlatormCorp() {
 //	ctx := context.Background()
-//	resp, err := vanilla.NewResource(ctx).LoginAsManager().Get("gskep", "corp.platform_corps", vanilla.Map{})
+//	resp, err := eel.NewResource(ctx).LoginAsManager().Get("gskep", "corp.platform_corps", eel.Map{})
 //
 //	if err != nil {
-//		beego.Error(err)
+//		eel.Logger.Error(err)
 //		panic(err)
 //	}
 //

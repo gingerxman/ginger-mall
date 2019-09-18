@@ -14,8 +14,9 @@ Feature: 创建商品分类
 		"username": "tom"
 	}]
 	"""
+	Given lucy注册为App用户
 
-@ginger-mall @product @wip
+@ginger-mall @product
 Scenario: 酒吧管理员创建商品分类
 	# 初始验证
 	Given jobs登录系统
@@ -72,3 +73,26 @@ Scenario: 酒吧管理员创建商品分类
 	"""
 	[]
 	"""
+
+	#lucy验证
+	Given lucy访问'jobs'的商城
+	Then lucy能在手机上看到'一级'分类下的商品分类列表
+		"""
+		[{
+			"name": "分类11"
+		},{
+			"name": "分类12"
+		},{
+			"name": "分类13"
+		}]
+		"""
+	Then lucy能在手机上看到'分类11'分类下的商品分类列表
+		"""
+		[{
+			"name": "分类21"
+		},{
+			"name": "分类22"
+		},{
+			"name": "分类23"
+		}]
+		"""

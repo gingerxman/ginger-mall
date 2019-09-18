@@ -107,7 +107,7 @@ func (this *ProductCategory) GetPagedProducts(filters eel.Map, page *eel.PageInf
 	productPool := GetProductPoolForCorp(this.Ctx, this.Corp)
 	filters["product_id__in"] = productIds
 	//filters["corp_id"] = this.CorpId
-	poolProducts := productPool.GetPoolProducts(filters, "-id")
+	poolProducts := productPool.GetPoolProducts(filters, "id desc")
 	return poolProducts, paginateResult
 }
 

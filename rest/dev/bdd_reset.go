@@ -30,6 +30,8 @@ func (this *BDDReset) Put(ctx *eel.Context) {
 	bCtx := ctx.GetBusinessContext()
 	o := eel.GetOrmFromContext(bCtx)
 	
+	o.Exec("delete from product_has_label")
+	o.Exec("delete from product_label")
 	o.Exec("delete from product_category")
 	o.Exec("delete from product_pool_product")
 	o.Exec("delete from product_product")

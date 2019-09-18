@@ -71,14 +71,14 @@ func (this *ProductCategoryRepository) GetEnabledProductCategoriesForCorp(corp b
 	filters["corp_id"] = corp.GetId()
 	filters["is_enabled"] = true
 	
-	return this.GetPagedProductCategories(filters, page, "-id")
+	return this.GetPagedProductCategories(filters, page, "id desc")
 }
 
 //GetCorpProductCategories 获得corp的ProductCategory对象集合
 func (this *ProductCategoryRepository) GetCorpProductCategories(corp business.ICorp, page *eel.PageInfo, filters eel.Map) ([]*ProductCategory, eel.INextPageInfo) {
 	filters["corp_id"] = corp.GetId()
 	
-	return this.GetPagedProductCategories(filters, page, "-id")
+	return this.GetPagedProductCategories(filters, page, "id desc")
 }
 
 //GetAllProductCategoriesForCorp 获得corp的ProductCategory对象集合

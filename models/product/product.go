@@ -7,21 +7,19 @@ import (
 
 //Product Model
 type Product struct {
-	Id int
+	eel.Model
 	UserId int
-	CorpId int `orm:"index"` //foreign key for corp
+	CorpId int `gorm:"index"` //foreign key for corp
 	Type string
 	Name string
 	PromotionTitle string
-	BarCode string `orm:"size(52);index"`
+	BarCode string `gorm:"size:52;index"`
 	MinLimit int
 	DisplayIndex int
 	CategoryId int //分类id
 	PhysicalUnit string
 	Thumbnail string
-	IsDeleted bool `orm:"default(false)"`
-	CreatedAt time.Time `orm:"auto_now_add;type(datetime)"`
-	UpdateTime time.Time `orm:"auto_now_add;type(datetime)"`
+	IsDeleted bool `gorm:"default:false"`
 }
 func (self *Product) TableName() string {
 	return "product_product"
@@ -39,7 +37,7 @@ var STR2PRODUCTCATEGORYNODE = map[string]int{
 	"leaf": PRODUCT_CATEGORY_NODE_TYPE_LEAF,
 }
 type ProductCategory struct {
-	Id int
+	eel.Model
 	CorpId int `gorm:"index"` //foreign key for corp
 	Name string `gorm:"size:52"`
 	NodeType int //分类节点类型（中间节点，叶节点）
@@ -47,7 +45,6 @@ type ProductCategory struct {
 	ProductCount int
 	DisplayIndex int
 	IsEnabled bool `gorm:"default:true"`
-	CreatedAt time.Time `gorm:"type:datetime"`
 }
 func (self *ProductCategory) TableName() string {
 	return "product_category"
@@ -65,7 +62,7 @@ var STR2PPTYPE = map[string]int {
 	"create": PP_TYPE_CREATE,
 }
 type PoolProduct struct {
-	Id int
+	eel.Model
 	CorpId int `orm:"index"` //foreign key for corp
 	UserId int
 	ProductId int
@@ -79,14 +76,38 @@ type PoolProduct struct {
 	IsDistributionByPlatform bool `orm:"default(false)"`
 	IsDistributionByCorp bool `orm:"default(false)"`
 	SyncAt time.Time `orm:"type(datetime)"`
-	CreatedAt time.Time `orm:"auto_now_add;type(datetime)"`
 }
 func (self *PoolProduct) TableName() string {
 	return "product_pool_product"
 }
 
+//ProductLabel Model
+type ProductLabel struct {
+	eel.Model
+	CorpId int `gorm:"index"` //foreign key for corp
+	Name string
+	IsEnabled bool `orm:"default(true)"`
+}
+func (self *ProductLabel) TableName() string {
+	return "product_label"
+}
+
+
+//ProductHasLabel Model
+type ProductHasLabel struct {
+	eel.Model
+	ProductId int //foreign key product
+	LabelId   int //foreign key product_label
+}
+func (self *ProductHasLabel) TableName() string {
+	return "product_has_label"
+}
+
+
 func init() {
 	eel.RegisterModel(new(Product))
 	eel.RegisterModel(new(ProductCategory))
 	eel.RegisterModel(new(PoolProduct))
+	eel.RegisterModel(new(ProductLabel))
+	eel.RegisterModel(new(ProductHasLabel))
 }

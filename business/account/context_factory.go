@@ -23,7 +23,7 @@ func NewBusinessContext(ctx context.Context, request *http.Request, userId int, 
 	//创建corp
 	if rawData != nil {
 		jwtType, _ := rawData.Get("type").Int()
-		if jwtType == 1 {
+		if jwtType == 1 { //for logined corp user
 			corpId, err := rawData.Get("cid").Int()
 			if err == nil {
 				corp := new(Corp)
@@ -40,13 +40,22 @@ func NewBusinessContext(ctx context.Context, request *http.Request, userId int, 
 			} else {
 				eel.Logger.Error(err)
 			}
-			
+		} else if jwtType == 2 { //for logined mall mobile user
+			corpId, err := rawData.Get("cid").Int()
+			if err == nil {
+				corp := new(Corp)
+				corp.Model = nil
+				corp.Id = corpId
+				corp.Ctx = ctx
+				
+				ctx = context.WithValue(ctx, "corp", corp)
+			} else {
+				eel.Logger.Error(err)
+			}
 		}
 	}
 	return ctx
 }
 
 func init() {
-	//gInstance = &ContextFactory{}
-	//middleware.SetBusinessContextFactory(gInstance)
 }

@@ -13,22 +13,22 @@ type ProductPool struct {
 
 func (this *ProductPool) GetPoolProducts(filters eel.Map, orderExprs string) []*PoolProduct {
 	return make([]*PoolProduct, 0)
-	//o := vanilla.GetOrmFromContext(this.Ctx)
-	//qs := o.QueryTable(&m_product.PoolProduct{})
+	//o := eel.GetOrmFromContext(this.Ctx)
+	//qs := o.Model(&m_product.PoolProduct{})
 	//
 	//var models []*m_product.PoolProduct
 	//if this.Corp != nil && this.Corp.IsValid() {
 	//	filters["corp_id"] = this.Corp.GetId()
 	//}
 	//if len(filters) > 0 {
-	//	qs = qs.Filter(filters)
+	//	qs = qs.Where(filters)
 	//}
 	//if len(orderExprs) > 0 {
 	//	qs = qs.Order(orderExprs...)
 	//}
 	//_, err := qs.All(&models)
 	//if err != nil {
-	//	beego.Error(err)
+	//	eel.Logger.Error(err)
 	//	return nil
 	//}
 	//

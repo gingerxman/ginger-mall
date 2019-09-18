@@ -37,13 +37,13 @@ func (this *UserRepository) makeUsers(userDatas []interface{}) []*User {
 //func (this *UserRepository) GetUsers(ids []int) []*User {
 //	options := make(map[string]interface{})
 //	options["with_role_info"] = true
-//	resp, err := vanilla.NewResource(this.Ctx).Get("gskep", "account.users", vanilla.Map{
-//		"ids": vanilla.ToJsonString(ids),
-//		"with_options": vanilla.ToJsonString(options),
+//	resp, err := eel.NewResource(this.Ctx).Get("gskep", "account.users", eel.Map{
+//		"ids": eel.ToJsonString(ids),
+//		"with_options": eel.ToJsonString(options),
 //	})
 //
 //	if err != nil {
-//		beego.Error(err)
+//		eel.Logger.Error(err)
 //		return nil
 //	}
 //
@@ -54,13 +54,13 @@ func (this *UserRepository) makeUsers(userDatas []interface{}) []*User {
 //}
 //
 //func (this *UserRepository) GetUsersWithOptions(ids []int, options map[string]interface{}) []*User {
-//	resp, err := vanilla.NewResource(this.Ctx).Get("gskep", "account.users", vanilla.Map{
-//		"ids": vanilla.ToJsonString(ids),
-//		"with_options": vanilla.ToJsonString(options),
+//	resp, err := eel.NewResource(this.Ctx).Get("gskep", "account.users", eel.Map{
+//		"ids": eel.ToJsonString(ids),
+//		"with_options": eel.ToJsonString(options),
 //	})
 //
 //	if err != nil {
-//		beego.Error(err)
+//		eel.Logger.Error(err)
 //		return nil
 //	}
 //
@@ -70,12 +70,12 @@ func (this *UserRepository) makeUsers(userDatas []interface{}) []*User {
 //}
 //
 //func (this *UserRepository) GetUsersByCodes(codes []string) []*User {
-//	resp, err := vanilla.NewResource(this.Ctx).Get("gskep", "account.users", vanilla.Map{
-//		"codes": vanilla.ToJsonString(codes),
+//	resp, err := eel.NewResource(this.Ctx).Get("gskep", "account.users", eel.Map{
+//		"codes": eel.ToJsonString(codes),
 //	})
 //
 //	if err != nil {
-//		beego.Error(err)
+//		eel.Logger.Error(err)
 //		return nil
 //	}
 //
@@ -85,12 +85,12 @@ func (this *UserRepository) makeUsers(userDatas []interface{}) []*User {
 //}
 //
 //func (this *UserRepository) GetUsersByUnionids(unionids []string) []*User {
-//	resp, err := vanilla.NewResource(this.Ctx).Get("gskep", "account.users", vanilla.Map{
-//		"unionids": vanilla.ToJsonString(unionids),
+//	resp, err := eel.NewResource(this.Ctx).Get("gskep", "account.users", eel.Map{
+//		"unionids": eel.ToJsonString(unionids),
 //	})
 //
 //	if err != nil {
-//		beego.Error(err)
+//		eel.Logger.Error(err)
 //		return nil
 //	}
 //
@@ -100,12 +100,12 @@ func (this *UserRepository) makeUsers(userDatas []interface{}) []*User {
 //}
 //
 //func (this *UserRepository) GetUserByCorpUserId(corpUserId int) *User {
-//	resp, err := vanilla.NewResource(this.Ctx).Get("gskep", "account.user", vanilla.Map{
+//	resp, err := eel.NewResource(this.Ctx).Get("gskep", "account.user", eel.Map{
 //		"corp_user_id": corpUserId,
 //	})
 //
 //	if err != nil {
-//		beego.Error(err)
+//		eel.Logger.Error(err)
 //		return nil
 //	}
 //

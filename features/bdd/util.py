@@ -249,53 +249,53 @@ def get_date_str(str):
 	date = get_date(str)
 	return date.strftime('%Y-%m-%d')
 
-
-#获得corp user对应的corp的id
-def get_corp_id_for_corpuser(client, username):
-	data = {
-		"username": username,
-		"password": '55e421ee9bdc9d9f6b6c6518E590b0ee'
-	}
-	resp = client.put('gskep:login.logined_corp_user', data)
-
-	return resp.data['cid']
-
-def get_corp_uuid_for_corpuser(client, username):
-	data = {
-		"username": username
-	}
-	resp = client.get('gskep:dev.corp_uuid', data)
-
-	return resp.data['uuid']
-
-def get_corp_token_for_corpuser(client, username):
-	corp_id = get_corp_id_for_corpuser(client, username)
-	data = {
-		"corp_id": corp_id
-	}
-	resp = client.get('gskep:dev.corp_token', data)
-
-	return resp.data['__cs']
-
-
-def get_users_by_names(client, names):
-	users = []
-	for name in names:
-		resp = get_user_by_name(client, name)
-		users.append(resp.data)
-	return users
-
-
-def get_user_by_name(client, name):
-	resp = client.put("gskep:login.logined_bdd_user", {
-		'name': name,
-	})
-	assert_api_call_success(resp)
-	return resp
-
-
-def get_user_by_id(client, id):
-	resp = client.put("gskep:login.dev_logined_user", {
-		'user_id': id,
-	})
-	return resp
+#
+# #获得corp user对应的corp的id
+# def get_corp_id_for_corpuser(client, username):
+# 	data = {
+# 		"username": username,
+# 		"password": '55e421ee9bdc9d9f6b6c6518E590b0ee'
+# 	}
+# 	resp = client.put('ginger-account:login.logined_corp_user', data)
+#
+# 	return resp.data['cid']
+#
+# def get_corp_uuid_for_corpuser(client, username):
+# 	data = {
+# 		"username": username
+# 	}
+# 	resp = client.get('ginger-account:dev.corp_uuid', data)
+#
+# 	return resp.data['uuid']
+#
+# def get_corp_token_for_corpuser(client, username):
+# 	corp_id = get_corp_id_for_corpuser(client, username)
+# 	data = {
+# 		"corp_id": corp_id
+# 	}
+# 	resp = client.get('ginger-account:dev.corp_token', data)
+#
+# 	return resp.data['__cs']
+#
+#
+# def get_users_by_names(client, names):
+# 	users = []
+# 	for name in names:
+# 		resp = get_user_by_name(client, name)
+# 		users.append(resp.data)
+# 	return users
+#
+#
+# def get_user_by_name(client, name):
+# 	resp = client.put("ginger-account:login.logined_bdd_user", {
+# 		'name': name,
+# 	})
+# 	assert_api_call_success(resp)
+# 	return resp
+#
+#
+# def get_user_by_id(client, id):
+# 	resp = client.put("ginger-account:login.dev_logined_user", {
+# 		'user_id': id,
+# 	})
+# 	return resp

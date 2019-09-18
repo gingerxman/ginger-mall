@@ -10,13 +10,19 @@ _SERVICE_INFO = None
 def get_service_info():
 	global _SERVICE_INFO
 	if not _SERVICE_INFO:
-		with open('./service.json', 'rb') as f:
-			content = f.read()
+		service_name = None
+		service_port = None
+		with open('./conf/app.conf', 'rb') as f:
+			for line in f:
+				line = line.strip()
+				if line.startswith('SERVICE_NAME'):
+					service_name = line.split(' ')[-1]
+				if line.startswith('HTTP_PORT'):
+					service_port = line.split(' ')[-1]
 
-		json_data = json.loads(content)
 		_SERVICE_INFO = {
-			'name': json_data['name'],
-			'port': json_data['default_port']
+			'name': service_name,
+			'port': service_port
 		}
 
 	return _SERVICE_INFO
@@ -185,7 +191,8 @@ def login(type, user, password=None, **kwargs):
 	client = RestClient()
 	if type == 'app':
 		resp = client.put("ginger-account:login.logined_bdd_user", {
-			'name': user
+			'username': user,
+			'type': 'user'
 		})
 		assert resp.is_success
 	elif type == 'backend':
