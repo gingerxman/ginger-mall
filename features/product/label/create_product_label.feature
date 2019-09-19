@@ -15,7 +15,7 @@ Feature: 创建标签
 	}]
 	"""
 
-@ginger-mall @product @wip
+@ginger-mall @product
 Scenario: 管理员创建标签
 	# 初始验证
 	Given jobs登录系统

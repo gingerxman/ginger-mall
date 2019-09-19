@@ -10,6 +10,7 @@ import (
 	"github.com/gingerxman/eel/config"
 	_ "github.com/gingerxman/ginger-mall/models/product"
 	_ "github.com/gingerxman/ginger-mall/models/order"
+	_ "github.com/gingerxman/ginger-mall/models/mall"
 )
 
 var Db *gorm.DB

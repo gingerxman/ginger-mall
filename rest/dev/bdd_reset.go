@@ -32,7 +32,16 @@ func (this *BDDReset) Put(ctx *eel.Context) {
 	
 	o.Exec("delete from product_has_label")
 	o.Exec("delete from product_label")
+	o.Exec("delete from product_sku_has_property")
+	o.Exec("delete from product_sku_property_value")
+	o.Exec("delete from product_sku_property")
+	o.Exec("delete from product_category_has_product")
 	o.Exec("delete from product_category")
+	o.Exec("delete from product_media")
+	o.Exec("delete from product_usable_imoney")
+	o.Exec("delete from product_description")
+	o.Exec("delete from product_sku")
+	o.Exec("delete from product_logistics")
 	o.Exec("delete from product_pool_product")
 	o.Exec("delete from product_product")
 	

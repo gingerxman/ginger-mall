@@ -39,8 +39,12 @@ github.com/gingerxman/eel v0.0.0-20190915085514-a49936a49936 h1:lp268XjYPSHm43er
 github.com/gingerxman/eel v0.0.0-20190915085514-a49936a49936/go.mod h1:P3/6VCXENVvI7O1prgNMcENOoanv1WdAZEoCX0J0NBs=
 github.com/gingerxman/eel v0.0.0-20190915151115-22f94e6bac35 h1:gbzPDv+ogN1knOCeADKnV1AIaaijVwp+oz09DKZD5Bo=
 github.com/gingerxman/eel v0.0.0-20190915151115-22f94e6bac35/go.mod h1:P3/6VCXENVvI7O1prgNMcENOoanv1WdAZEoCX0J0NBs=
+github.com/gingerxman/eel v0.0.0-20190918162559-f9725d92ee33 h1:3iGD+Q0ZBpBZ4lu34U4Ub+lqTSSf3AuKtvQlFIzFvGY=
+github.com/gingerxman/eel v0.0.0-20190918162559-f9725d92ee33/go.mod h1:P3/6VCXENVvI7O1prgNMcENOoanv1WdAZEoCX0J0NBs=
 github.com/gingerxman/gorm v1.10.3 h1:6RpFygs1SIfydtpnRaCpc6wjBDF16LkHT94SuFNr8AE=
 github.com/gingerxman/gorm v1.10.3/go.mod h1:ieZuWDmJo3kpFdWDTaT2LchtC7Znkn22hBXcF7Spl6Y=
+github.com/gingerxman/gorm v1.10.4 h1:NGg3f6eBrxp1yGLhMni0wk73ONv78AwCCN+CYfD+MmU=
+github.com/gingerxman/gorm v1.10.4/go.mod h1:ieZuWDmJo3kpFdWDTaT2LchtC7Znkn22hBXcF7Spl6Y=
 github.com/go-kit/kit v0.8.0/go.mod h1:xBxKIO96dXMWWy0MnWVtmwkA9/13aqxPnvrjFYMA2as=
 github.com/go-logfmt/logfmt v0.3.0/go.mod h1:Qt1PoO58o5twSAckw1HlFXLmHsOX5/0LbT9GBnD5lWE=
 github.com/go-redis/redis v6.14.2+incompatible/go.mod h1:NAIEuMOZ/fxfXJIrKDQDz8wamY7mA7PouImQ2Jvg6kA=

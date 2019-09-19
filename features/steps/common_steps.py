@@ -43,7 +43,7 @@ def step_impl(context, user, corpuser_name):
 	from features.bdd.client import RestClient
 	client = RestClient()
 
-	corp_id =step_util.get_corp_id_for_corpuser(client, corpuser_name)
+	corp_id = step_util.get_corp_id_for_corpuser(client, corpuser_name)
 
 	resp = client.put('ginger-account:login.logined_mall_user', {
 		'unionid': user,

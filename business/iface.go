@@ -10,4 +10,7 @@ type IUser interface {
 
 type ICorp interface {
 	GetId() int
+	GetPlatformId() int
+	IsPlatform() bool
+	IsValid() bool
 }

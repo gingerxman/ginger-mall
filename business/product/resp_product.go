@@ -47,12 +47,10 @@ type RProductBaseInfo struct {
 	Type string `json:"type"`
 	CreateType string `json:"create_type"`
 	PromotionTitle string `json:"promotion_title"`
-	BarCode string `json:"bar_code"`
+	Code string `json:"code"`
 	Detail string `json:"detail"`
 	ShelveType string `json:"shelve_type"`
-	MinLimit int `json:"min_limit"`
 	DisplayIndex int `json:"display_index"`
-	PhysicalUnit string `json:"physical_unit"`
 	Thumbnail string `json:"thumbnail"`
 }
 
@@ -104,9 +102,7 @@ type RLintProductCategory struct {
 type RProductProperty struct {
 	Id int `json:"id"`
 	CorpId int `json:"corp_id"`
-	UserId int `json:"user_id"`
 	Name string `json:"name"`
-	Type string `json:"type"`
 	IsDeleted bool `json:"is_deleted"`
 	Values []*RProductPropertyValue `json:"values"`
 	CreatedAt string `json:"created_at"`
@@ -115,7 +111,6 @@ type RProductProperty struct {
 type RProductPropertyValue struct {
 	Id int `json:"id"`
 	PropertyId int `json:"property_id"`
-	PropertyType string `json:"property_type"`
 	PropertyName string `json:"property_name"`
 	Text string `json:"text"`
 	Image string `json:"image"`
@@ -125,15 +120,11 @@ type RProductSku struct {
 	Id int `json:"id"`
 	Name string `json:"name"`
 	DisplayName string `json:"display_name"`
-	SkuCode string `json:"sku_code"`
+	Code string `json:"code"`
 	Price float64 `json:"price"`
-	MarketPrice float64 `json:"market_price"`
-	PurchasePrice float64 `json:"purchase_price"`
-	Weight float64 `json:"weight"`
-	StockType string `json:"stock_type"`
+	CostPrice float64 `json:"cost_price"`
 	Stocks int `json:"stocks"`
 	PropertyValues []*RProductPropertyValue `json:"property_values"`
-	Level2Price map[string]float64 `json:"level2price"`
 }
 
 type RPlatformProductApplication struct {
