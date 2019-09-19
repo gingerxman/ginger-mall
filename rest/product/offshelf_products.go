@@ -1,11 +1,9 @@
 package product
 
 import (
-	"gpeanut/business/account"
-	"gpeanut/business/common"
-	"gpeanut/business/product"
-	
-	"github.com/kfchen81/beego/vanilla"
+	"github.com/gingerxman/eel"
+	"github.com/gingerxman/ginger-mall/business/account"
+	"github.com/gingerxman/ginger-mall/business/product"
 )
 
 type OffshelfProducts struct {
@@ -23,14 +21,14 @@ func (this *OffshelfProducts) GetParameters() map[string][]string {
 	}
 }
 
-func (this *OffshelfProducts) Get() {
-	bCtx := this.GetBusinessContext()
-	page := eel.ExtractPageInfoFromRequest(this.Ctx)
-	filters := common.ConvertToBeegoOrmFilter(this.GetFilters())
+func (this *OffshelfProducts) Get(ctx *eel.Context) {
+	req := ctx.Request
+	bCtx := ctx.GetBusinessContext()
+	page := req.GetPageInfo()
+	filters := req.GetOrmFilters()
 	corp := account.GetCorpFromContext(bCtx)
 	poolProducts, nextPageInfo := product.GetForSaleProductShelfForCorp(bCtx, corp).GetPagedProducts(filters, page)
 
-	//fillService := product.NewFillPoolProductService(bCtx)
 	fillService := product.NewFillPoolProductServiceForCorp(bCtx, corp)
 	fillService.Fill(poolProducts, eel.FillOption{
 		"with_category": true,
@@ -38,29 +36,25 @@ func (this *OffshelfProducts) Get() {
 		"with_media": true,
 		"with_sku": true,
 		"with_label": true,
-		"with_commission": true,
 	})
 
 	encodeService := product.NewEncodePoolProductService(bCtx)
 	rows := encodeService.EncodeMany(poolProducts)
 	
-	response := eel.MakeResponse(eel.Map{
+	ctx.Response.JSON(eel.Map{
 		"products": rows,
 		"pageinfo": nextPageInfo.ToMap(),
 	})
-	this.ReturnJSON(response)
 }
 
-func (this *OffshelfProducts) Put() {
-	bCtx := this.GetBusinessContext()
+func (this *OffshelfProducts) Put(ctx *eel.Context) {
+	req := ctx.Request
+	bCtx := ctx.GetBusinessContext()
 	corp := account.GetCorpFromContext(bCtx)
-	productIds := this.GetIntArray("product_ids")
+	productIds := req.GetIntArray("product_ids")
 	
 	poolProducts := product.GetProductPoolForCorp(bCtx, corp).GetPoolProductsByIds(productIds)
 	product.GetForSaleProductShelfForCorp(bCtx, corp).AddProducts(poolProducts)
 	
-	product.NewOffshelfApplication(bCtx, poolProducts)
-	
-	response := eel.MakeResponse(eel.Map{})
-	this.ReturnJSON(response)
+	ctx.Response.JSON(eel.Map{})
 }

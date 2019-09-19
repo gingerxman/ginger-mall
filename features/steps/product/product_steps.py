@@ -257,8 +257,6 @@ def __get_format_products(products):
 		skus = product['skus']
 		name2sku = {}
 		for sku in skus:
-			sku['stock_type'] = u'无限' if sku['stock_type'] == 'unlimit' else u'有限'
-
 			name = sku['name']
 			if name != 'standard':
 				name = ' '.join([property_value['text'] for property_value in sku['property_values']])
@@ -266,7 +264,6 @@ def __get_format_products(products):
 		data['skus'] = name2sku
 
 		data['thumbnail'] = product['base_info']['thumbnail']
-		data['platform_product_status'] = product['platform_product_status']
 		data['status'] = product['status']
 
 		if data['status'] == 'on_pool':

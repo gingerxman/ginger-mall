@@ -23,17 +23,17 @@ func (this *OnshelfProducts) GetParameters() map[string][]string {
 
 func (this *OnshelfProducts) Get(ctx *eel.Context) {
 	req := ctx.Request
-	bCtx := this.GetBusinessContext()
-	page := eel.ExtractPageInfoFromRequest(this.Ctx)
-	filters := common.ConvertToBeegoOrmFilter(this.GetFilters())
+	bCtx := ctx.GetBusinessContext()
+	page := req.GetPageInfo()
+	filters := req.GetOrmFilters()
 	
-	productType := this.GetString("type")
+	productType := req.GetString("type")
 	if productType == "" {
 		filters["product_type"] = "product"
 	}
 	
-	corpId, _ := this.GetInt("corp_id", 0)
-	var corp *account.Corporation
+	corpId, _ := req.GetInt("corp_id", 0)
+	var corp *account.Corp
 	if corpId != 0{
 		corp = account.NewCorpFromOnlyId(bCtx, corpId)
 	}else{
@@ -42,7 +42,6 @@ func (this *OnshelfProducts) Get(ctx *eel.Context) {
 
 	poolProducts, nextPageInfo := product.GetInSaleProductShelfForCorp(bCtx, corp).GetPagedProducts(filters, page)
 
-	//fillService := product.NewFillPoolProductService(bCtx)
 	fillService := product.NewFillPoolProductServiceForCorp(bCtx, corp)
 	fillService.Fill(poolProducts, eel.FillOption{
 		"with_category": true,
@@ -50,17 +49,15 @@ func (this *OnshelfProducts) Get(ctx *eel.Context) {
 		"with_media": true,
 		"with_sku": true,
 		"with_label": true,
-		"with_commission": true,
 	})
 
 	encodeService := product.NewEncodePoolProductService(bCtx)
 	rows := encodeService.EncodeMany(poolProducts)
 	
-	response := eel.MakeResponse(eel.Map{
+	ctx.Response.JSON(eel.Map{
 		"products": rows,
 		"pageinfo": nextPageInfo.ToMap(),
 	})
-	this.ReturnJSON(response)
 }
 
 func (this *OnshelfProducts) Put(ctx *eel.Context) {
@@ -72,8 +69,5 @@ func (this *OnshelfProducts) Put(ctx *eel.Context) {
 	poolProducts := product.GetProductPoolForCorp(bCtx, corp).GetPoolProductsByIds(productIds)
 	product.GetInSaleProductShelfForCorp(bCtx, corp).AddProducts(poolProducts)
 	
-	product.NewOffshelfApplicationSerivce(bCtx).CancelOffshelfApplicationForPoolProducts(poolProducts)
-	
-	response := eel.MakeResponse(eel.Map{})
-	this.ReturnJSON(response)
+	ctx.Response.JSON(eel.Map{})
 }

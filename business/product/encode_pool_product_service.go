@@ -61,6 +61,7 @@ func (this *EncodePoolProductService) Encode(poolProduct *PoolProduct) *RPoolPro
 			Name: sku.Name,
 			Code: sku.Code,
 			Price: sku.Price,
+			CostPrice: sku.CostPrice,
 			Stocks: sku.Stocks,
 		}
 		

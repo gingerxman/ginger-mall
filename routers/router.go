@@ -32,6 +32,8 @@ func init() {
 	eel.RegisterResource(&product.CorpProductProperties{})
 	//product
 	eel.RegisterResource(&product.Product{})
+	eel.RegisterResource(&product.OffshelfProducts{})
+	eel.RegisterResource(&product.OnshelfProducts{})
 	
 	/*
 	 mall

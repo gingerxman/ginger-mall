@@ -2,16 +2,15 @@ package product
 
 import (
 	"context"
-	"github.com/kfchen81/beego/orm"
-	"github.com/kfchen81/beego"
-	"github.com/kfchen81/beego/vanilla"
-	"gpeanut/business"
-	m_product "gpeanut/models/product"
+	"github.com/gingerxman/eel"
+	"github.com/gingerxman/ginger-mall/business"
+	m_product "github.com/gingerxman/ginger-mall/models/product"
+	"github.com/gingerxman/gorm"
 	"time"
 )
 
 type ProductShelf struct {
-	vanilla.RepositoryBase
+	eel.RepositoryBase
 	Type string
 	Corp business.ICorp
 }
@@ -32,19 +31,19 @@ func (this *ProductShelf) AddProducts(poolProducts []*PoolProduct) {
 		status = m_product.PP_STATUS_OFF
 	}
 	
-	o := vanilla.GetOrmFromContext(this.Ctx)
-	_, err := o.QueryTable(&m_product.PoolProduct{}).Filter(vanilla.Map{
+	o := eel.GetOrmFromContext(this.Ctx)
+	db := o.Model(&m_product.PoolProduct{}).Where(eel.Map{
 		"id__in": ids,
 		"status__gt": m_product.PP_STATUS_DELETE,
-	}).Update(orm.Params{
+	}).Update(gorm.Params{
 		"status": status,
 		"display_index": NEW_PRODUCT_DISPLAY_INDEX,
 		"sync_at": time.Now(),
 	})
 	
-	if err != nil {
-		beego.Error(err)
-		panic(vanilla.NewBusinessError("product_shelf:add_product_fail", "向货架添加商品失败"))
+	if db.Error != nil {
+		eel.Logger.Error(db.Error)
+		panic(eel.NewBusinessError("product_shelf:add_product_fail", "向货架添加商品失败"))
 	}
 }
 
@@ -58,7 +57,7 @@ func (this *ProductShelf) AddProduct(poolProduct *PoolProduct) {
 	this.AddProducts([]*PoolProduct{poolProduct})
 }
 
-func (this *ProductShelf) GetPagedProducts(filters vanilla.Map, page *vanilla.PageInfo) ([]*PoolProduct, vanilla.INextPageInfo) {
+func (this *ProductShelf) GetPagedProducts(filters eel.Map, page *eel.PageInfo) ([]*PoolProduct, eel.INextPageInfo) {
 	productPool := GetProductPoolForCorp(this.Ctx, this.Corp)
 	
 	if this.Type == "in_sale" {

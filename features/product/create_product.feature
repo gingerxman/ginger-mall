@@ -71,7 +71,7 @@ Feature: 创建商品
 				"standard": {
 					"price": 11.12,
 					"cost_price": 1.11,
-					"stocs": 99999
+					"stocks": 99999
 				}
 			}
 		}, {
@@ -111,12 +111,11 @@ Feature: 创建商品
 				"standard": {
 					"price": 11.12,
 					"cost_price": 1.11,
-					"stock_type": 99999
+					"stocks": 99999
 				}
 			}
 		}
 		"""
-		Then 结束测试
 		Then jobs能获取商品'叫花鸡'
 		"""
 		{
@@ -152,7 +151,7 @@ Feature: 创建商品
 			"name": "东坡肘子",
 			"skus": {
 				"standard": {
-					"stocs": 99999,
+					"stocks": 99999,
 					"cost_price": 1.11,
 					"price": 11.12
 
