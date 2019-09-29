@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gingerxman/eel"
+	"github.com/gingerxman/ginger-mall/business"
 	"github.com/gingerxman/ginger-mall/business/account"
 	"strconv"
 	"strings"
@@ -100,6 +101,60 @@ func (this *ProductFactory) addLogisticsInfoToProduct(product *Product, logistic
 	}
 }
 
+func (this *ProductFactory) isNeedCreateProperty(propertyInfo *productSkuPropertyInfo) bool {
+	return propertyInfo.PropertyId <= 0
+}
+
+func (this *ProductFactory) isNeedCreatePropertyValue(propertyInfo *productSkuPropertyInfo) bool {
+	return propertyInfo.PropertyValueId <= 0
+}
+
+func (this *ProductFactory) EnsureSkuPropertyExists(corp business.ICorp, skuInfos []*productSkuInfo) {
+	o := eel.GetOrmFromContext(this.Ctx)
+	
+	for _, skuInfo := range skuInfos {
+		needRebuildSkuName := false
+		for _, propertyInfo := range skuInfo.Properties {
+			if this.isNeedCreateProperty(propertyInfo) {
+				if o.Model(&m_product.ProductProperty{}).Where("name", propertyInfo.PropertyText).Exist() {
+					var model m_product.ProductProperty
+					db := o.Model(&m_product.ProductProperty{}).Where("name", propertyInfo.PropertyText).Take(&model)
+					if db.Error != nil {
+						eel.Logger.Error(db.Error)
+					} else {
+						propertyInfo.PropertyId = model.Id
+					}
+				} else {
+					newProperty := NewProductProperty(this.Ctx, corp, propertyInfo.PropertyText)
+					propertyInfo.PropertyId = newProperty.Id
+				}
+				
+				needRebuildSkuName = true
+			}
+			
+			if this.isNeedCreatePropertyValue(propertyInfo) {
+				if o.Model(&m_product.ProductPropertyValue{}).Where("text", propertyInfo.PropertyValueText).Exist() {
+					var model m_product.ProductPropertyValue
+					db := o.Model(&m_product.ProductPropertyValue{}).Where("text", propertyInfo.PropertyValueText).Take(&model)
+					if db.Error != nil {
+						eel.Logger.Error(db.Error)
+					} else {
+						propertyInfo.PropertyValueId = model.Id
+					}
+				} else {
+					newPropertyValue := NewProductPropertyValue(this.Ctx, propertyInfo.PropertyId, propertyInfo.PropertyValueText, "")
+					propertyInfo.PropertyValueId = newPropertyValue.Id
+				}
+				needRebuildSkuName = true
+			}
+		}
+		
+		if needRebuildSkuName {
+			skuInfo.RebuildName()
+		}
+	}
+}
+
 func (this *ProductFactory) addSkus(product *Product, skuInfos []*productSkuInfo) {
 	if len(skuInfos) == 0 {
 		return
@@ -107,6 +162,8 @@ func (this *ProductFactory) addSkus(product *Product, skuInfos []*productSkuInfo
 	
 	o := eel.GetOrmFromContext(this.Ctx)
 	corp := account.GetCorpFromContext(this.Ctx)
+	
+	this.EnsureSkuPropertyExists(corp, skuInfos)
 	
 	isStandardSku := len(skuInfos) == 1 && skuInfos[0].Name == "standard"
 	
@@ -233,6 +290,7 @@ func (this *ProductFactory) CreateProduct(strBaseInfo string, strSkuInfos string
 	
 	//解析sku info
 	skuInfos := make([]*productSkuInfo, 0)
+	eel.Logger.Debug(strSkuInfos)
 	err = json.Unmarshal([]byte(strSkuInfos), &skuInfos)
 	if err != nil {
 		eel.Logger.Error(err)

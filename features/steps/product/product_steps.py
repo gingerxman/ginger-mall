@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+import sys
 
 from behave import *
 
@@ -64,17 +65,31 @@ def __get_boolean(product, field, default=False):
 
 def __parse_sku_display_name(context, sku_display_name):
 	"""
-	解析sku display name（黑色 M），生成
-	1. 标准sku_name: 2:5_3:6
-	2. model properties: [{property_id:2, property_value_id:5}, {property_id:3, property_value_id:6}]
+	解析sku display name
+		1. 如果都是已存在的property value（黑色 M），生成
+			1. 标准sku_name: 2:5_3:6
+			2. model properties: [{property_id:2, property_value_id:5}, {property_id:3, property_value_id:6}]
+
+		2. 如果是未存在的proeprty value (颜色:蓝色 尺寸:XS), 生成
+			1. sku_name: -1:-1_-1:-1
+			2. model properties: [{property_id:-1, property_value_id:-1}, ...]
+
+		3. 对于混合的property value (黑色 尺寸:XL), 生成
+			1. sku_name: 2:5_-1:-1
+			2. model properties: [{property_id:2, property_value_id:5}, {property_id:-1, property_value_id:-1}]
 	"""
 	if sku_display_name == 'standard':
 		return 'standard', []
 
+	#获取properties
 	properties = get_product_properties()
+	name2property = {}
+	for property in properties:
+		name2property[property['name']] = property
+
+	#获取property values
 	property_ids = [property['id'] for property in properties]
 	property_values = get_product_property_values_for(property_ids)
-
 	name2value = {}
 	for property_value in property_values:
 		name = property_value['text']
@@ -86,12 +101,27 @@ def __parse_sku_display_name(context, sku_display_name):
 	properties = []
 	for property_value_name in sku_display_name.split(' '):
 		#property_value_name: '黒' 或是 'M'
-		property_value = name2value[property_value_name]
-		normalized_sku_name_item = '%d:%d' % (property_value['property_id'], property_value['id'])
+		property_value = name2value.get(property_value_name)
+		property_id = -1
+		property_value_id = -1
+		property_text = ''
+		property_value_text = ''
+		if property_value:
+			property_id = property_value['property_id']
+			property_value_id = property_value['id']
+		else:
+			items = property_value_name.split(':')
+			property_text = items[0]
+			property_value_text = items[1]
+			if property_text in name2property:
+				property_id = name2property[property_text]['id']
+		normalized_sku_name_item = '%d:%d' % (property_id, property_value_id)
 		normalized_sku_name_items.append(normalized_sku_name_item)
 		properties.append({
-			'property_id': property_value['property_id'],
-			'property_value_id': property_value['id']
+			'property_id': property_id,
+			'property_text': property_text,
+			'property_value_id': property_value_id,
+			'property_value_text': property_value_text
 		})
 	normalized_sku_name_items.sort(lambda x,y: cmp(int(x.split(':')[0]), int(y.split(':')[0])))
 	normalized_sku_name = '_'.join(normalized_sku_name_items)
@@ -101,6 +131,9 @@ def __parse_sku_display_name(context, sku_display_name):
 
 def __format_product_sku_info(context, product):
 	#规格信息
+	def should_create_property_and_value(sku_display_name):
+		return ':' in sku_display_name
+
 	skus_info = []
 	if 'skus' in product:
 		for sku_display_name, sku_info in product['skus'].items():
@@ -173,9 +206,9 @@ def __format_product_post_data(context, product):
 	# 		categories.append(category_id)
 
 	#物流信息
-	postage_type = product.get('postage_type', 'unified_postage_type')
+	postage_type = product.get('postage_type', 'unified')
 	if postage_type == u'系统':
-		postage_type = 'custom_postage_type'
+		postage_type = 'template'
 	logistics_info = {
 		'postage_type': postage_type,
 		'unified_postage_money': str(product.get('unified_postage_money', 0.00))

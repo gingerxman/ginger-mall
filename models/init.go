@@ -11,6 +11,7 @@ import (
 	_ "github.com/gingerxman/ginger-mall/models/product"
 	_ "github.com/gingerxman/ginger-mall/models/order"
 	_ "github.com/gingerxman/ginger-mall/models/mall"
+	_ "github.com/gingerxman/ginger-mall/models/material"
 )
 
 var Db *gorm.DB
@@ -33,6 +34,6 @@ func init() {
 		eel.Logger.Infof("[db] connect to mysql %s success!", mysqlURL)
 	}
 
-	Db.LogMode(true)
+	//Db.LogMode(true)
 	eel.Runtime.DB = Db
 }

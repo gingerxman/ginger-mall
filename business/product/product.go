@@ -7,6 +7,8 @@ import (
 	"github.com/gingerxman/ginger-mall/business/mall/limit_zone"
 	m_product "github.com/gingerxman/ginger-mall/models/product"
 	"github.com/gingerxman/gorm"
+	"sort"
+	"strings"
 	"time"
 )
 
@@ -37,8 +39,27 @@ type productLogisticsInfo struct {
 
 type productSkuPropertyInfo struct {
 	PropertyId int `json:"property_id"`
+	PropertyText string `json:"property_text"`
 	PropertyValueId int `json:"property_value_id"`
+	PropertyValueText string `json:"property_value_text"`
 }
+type productSkuPropertyInfos []*productSkuPropertyInfo
+func (ps productSkuPropertyInfos) Len() int {
+	return len(ps)
+}
+func (ps productSkuPropertyInfos) Swap(i, j int) {
+	ps[i], ps[j] = ps[j], ps[i]
+}
+func (ps productSkuPropertyInfos) Less(i, j int) bool {
+	pi := ps[i]
+	pj := ps[j]
+	if pi.PropertyId == pj.PropertyId {
+		return pi.PropertyValueId < pj.PropertyValueId
+	} else {
+		return pi.PropertyId < pj.PropertyId
+	}
+}
+
 type productSkuInfo struct {
 	Id int `json:"id"`
 	Name string `json:"name"`
@@ -46,8 +67,20 @@ type productSkuInfo struct {
 	CostPrice float64 `json:"cost_price"`
 	Stocks int `json:"stocks"`
 	Code string `json:"code"`
-	Properties []productSkuPropertyInfo `json:"properties"`
+	Properties productSkuPropertyInfos `json:"properties"`
 }
+func (this *productSkuInfo) RebuildName() {
+	sort.Sort(this.Properties)
+	
+	buffer := make([]string, 0)
+	for _, property := range this.Properties {
+		buffer = append(buffer, fmt.Sprintf("%d:%d", property.PropertyId, property.PropertyValueId))
+	}
+	
+	this.Name = strings.Join(buffer, "_")
+}
+
+
 
 type Product struct {
 	eel.EntityBase
@@ -118,7 +151,7 @@ func (this *Product) Disable() {
 //}
 
 func (this *Product) UseUnifiedPostage() bool {
-	return this.PostageType == "unified_postage_type"
+	return this.PostageType == "unified"
 }
 
 func (this *Product) SetLabels(labels []*ProductLabel) {
@@ -163,6 +196,15 @@ func (this *Product) SetLabels(labels []*ProductLabel) {
 		newModels = append(newModels, newModel)
 	}
 	
+	//TODO: 替换为o.BatchInsert方案
+	for _, newModel := range newModels {
+		db := o.Create(newModel)
+		if db.Error != nil {
+			eel.Logger.Error(db.Error)
+			panic(eel.NewBusinessError("product:set_label_fail_2", "创建标签失败"))
+		}
+	}
+	/*
 	_, err := o.BatchInsert(newModels)
 	if err != nil {
 		if err != nil {
@@ -170,6 +212,7 @@ func (this *Product) SetLabels(labels []*ProductLabel) {
 			panic(eel.NewBusinessError("product:set_label_fail_2", "创建标签失败"))
 		}
 	}
+	 */
 }
 
 func (this *Product) RemoveLabel(label *ProductLabel) {

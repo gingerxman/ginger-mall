@@ -84,7 +84,7 @@ func (this *ProductPool) AddProducts(products []*Product, supplierCorpId int) []
 			model.ProductId = productId
 			model.ProductType = id2product[productId].Type
 			model.SupplierId = supplierCorpId
-			model.Status = m_product.PP_STATUS_ON_POOL
+			model.Status = m_product.PP_STATUS_OFF
 			model.Type = m_product.PP_TYPE_CREATE
 			model.DisplayIndex = NEW_PRODUCT_DISPLAY_INDEX
 			model.SyncAt = nowTime

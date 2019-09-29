@@ -46,7 +46,7 @@ Feature: 创建商品
 		}]
 		"""
 
-	@ginger-mall @product @wip
+	@ginger-mall @product
 	Scenario: 1. 管理员创建标准规格商品
 		# 初始验证
 		Given jobs登录系统
@@ -168,8 +168,8 @@ Feature: 创建商品
 		[]
 		"""
 
-	@gpeanut @product
-	Scenario:2 添加定制规格商品
+	@ginger-mall @product
+	Scenario:2 使用已有规格添加定制规格商品
 		Given jobs登录系统
 		When jobs添加商品
 		#东坡肘子：多个定制规格，包含有限和无限库存
@@ -180,15 +180,12 @@ Feature: 创建商品
 			"skus": {
 				"黑色 M": {
 					"price": 11.12,
-					"purchase_price": 1.1,
-					"weight": 5.0,
-					"stock_type": "无限"
+					"cost_price": 1.1,
+					"stocks": 3
 				},
 				"白色 S": {
 					"price": 21.12,
-					"purchase_price": 2.2,
-					"weight": 25.0,
-					"stock_type": "有限",
+					"cost_price": 2.2,
 					"stocks": 99
 				}
 			}
@@ -197,9 +194,8 @@ Feature: 创建商品
 			"skus": {
 				"黑色 S": {
 					"price": 3.14,
-					"purchase_price": 1.3,
-					"weight": 3.14,
-					"stock_type": "无限"
+					"cost_price": 1.3,
+					"stocks": 10
 				}
 			}
 		}]
@@ -211,15 +207,12 @@ Feature: 创建商品
 			"skus": {
 				"黑色 M": {
 					"price": 11.12,
-					"purchase_price": 1.1,
-					"weight": 5.0,
-					"stock_type": "无限"
+					"cost_price": 1.1,
+					"stocks": 3
 				},
 				"白色 S": {
 					"price": 21.12,
-					"purchase_price": 2.2,
-					"weight": 25.0,
-					"stock_type": "有限",
+					"cost_price": 2.2,
 					"stocks": 99
 				}
 			}
@@ -232,9 +225,8 @@ Feature: 创建商品
 			"skus": {
 				"黑色 S": {
 					"price": 3.14,
-					"purchase_price": 1.3,
-					"weight": 3.14,
-					"stock_type": "无限"
+					"cost_price": 1.3,
+					"stocks": 10
 				}
 			}
 		}
@@ -247,9 +239,8 @@ Feature: 创建商品
 			"skus": {
 				"黑色 S": {
 					"price": 3.14,
-					"purchase_price": 1.3,
-					"weight": 3.14,
-					"stock_type": "无限"
+					"cost_price": 1.3,
+					"stocks": 10
 				}
 			}
 		}, {
@@ -257,16 +248,84 @@ Feature: 创建商品
 			"skus": {
 				"黑色 M": {
 					"price": 11.12,
-					"purchase_price": 1.1,
-					"weight": 5.0,
-					"stock_type": "无限"
+					"cost_price": 1.1,
+					"stocks": 3
 				},
 				"白色 S": {
 					"price": 21.12,
-					"purchase_price": 2.2,
-					"weight": 25.0,
-					"stock_type": "有限",
+					"cost_price": 2.2,
 					"stocks": 99
+				}
+			}
+		}]
+		"""
+	@ginger-mall @product
+	Scenario:2 在添加定制规格商品时新建规格
+		Given jobs登录系统
+		When jobs添加商品
+		"""
+		[{
+			"name": "东坡肘子",
+			"skus": {
+				"颜色:blue M": {
+					"price": 1
+				},
+				"颜色:red 尺寸:XS": {
+					"price": 2
+				}
+			}
+		}, {
+			"name": "酸菜鱼",
+			"skus": {
+				"品种:黑鱼 口味:微辣": {
+					"price": 3
+				}
+			}
+		}]
+		"""
+		Then jobs能获取商品'东坡肘子'
+		"""
+		{
+			"name": "东坡肘子",
+			"skus": {
+				"blue M": {
+					"price": 1
+				},
+				"red XS": {
+					"price": 2
+				}
+			}
+		}
+		"""
+		Then jobs能获取商品'酸菜鱼'
+		"""
+		{
+			"name": "酸菜鱼",
+			"skus": {
+				"黑鱼 微辣": {
+					"price": 3
+				}
+			}
+		}
+		"""
+		#待售列表按添加时间倒序排列
+		Then jobs能获得'在售'商品列表
+		"""
+		[{
+			"name": "酸菜鱼",
+			"skus": {
+				"黑鱼 微辣": {
+					"price": 3
+				}
+			}
+		}, {
+			"name": "东坡肘子",
+			"skus": {
+				"blue M": {
+					"price": 1
+				},
+				"red XS": {
+					"price": 2
 				}
 			}
 		}]

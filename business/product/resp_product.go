@@ -16,13 +16,12 @@ type RPoolProduct struct {
 	Medias []*RProductMedia `json:"medias"`
 	Skus []*RProductSku `json:"skus"`
 	Labels []*RProductLabel `json:"labels"`
-	Categories []*RLintProductCategory `json:"categories"`
+	Category *RLintProductCategory `json:"category"`
 	IsDeleted bool `json:"is_deleted"`
 	Status string `json:"status"`
 	PlatformProductStatus string `json:"platform_product_status"`
 	IsDistributionByPlatform bool `json:"is_distribution_by_platform"`
 	IsDistributionByCorp bool `json:"is_distribution_by_corp"`
-	Commissions []*RProductCommission `json:"commissions"`
 	CreatedAt string `json:"created_at"`
 	OffshelfPlan *RProductOffshelfPlan `json:"offshelf_plan"`
 }

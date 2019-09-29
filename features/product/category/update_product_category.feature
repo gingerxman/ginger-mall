@@ -15,7 +15,7 @@ Feature: 更新商品分类
 		}]
 		"""
 
-	@gpeanut @product
+	@ginger-mall @product
 	Scenario: 酒吧管理员更新商品分类
 
 		# 初始验证

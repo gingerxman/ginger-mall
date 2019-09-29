@@ -93,12 +93,14 @@ func (this *EncodePoolProductService) Encode(poolProduct *PoolProduct) *RPoolPro
 	}
 	
 	//对Category进行编码
-	rCategories := make([]*RLintProductCategory, 0)
-	for _, category := range product.Categories {
-		rCategories = append(rCategories, &RLintProductCategory{
+	var rCategory *RLintProductCategory
+	if len(product.Categories) > 0 {
+		//TODO: 将product.Categories改为product.Category
+		category := product.Categories[0]
+		rCategory = &RLintProductCategory{
 			Id: category.Id,
 			Name: category.Name,
-		})
+		}
 	}
 	
 	//对logistics info进行编码
@@ -127,7 +129,7 @@ func (this *EncodePoolProductService) Encode(poolProduct *PoolProduct) *RPoolPro
 		BaseInfo: &rProductBaseInfo,
 		LogisticsInfo: &rLogisticsInfo,
 		Medias: rProductMedias,
-		Categories: rCategories,
+		Category: rCategory,
 		Skus: rSkus,
 		Labels: rLabels,
 		IsDeleted: false,

@@ -182,6 +182,9 @@ func (this *UpdateProductService) updateMedias(productId int, mediaInfo *product
 func (this *UpdateProductService) updateSkus(productId int, skuInfos []*productSkuInfo) {
 	o := eel.GetOrmFromContext(this.Ctx)
 	
+	corp := account.GetCorpFromContext(this.Ctx)
+	NewProductFactory(this.Ctx).EnsureSkuPropertyExists(corp, skuInfos)
+	
 	var models []*m_product.ProductSku
 	db := o.Model(&m_product.ProductSku{}).Where(eel.Map{
 		"product_id": productId,
@@ -240,6 +243,7 @@ func (this *UpdateProductService) __updateExistedSkus(productId int, newSkuInfos
 		db := o.Model(m_product.ProductSku{}).Where("id", skuInfo.Id).Update(gorm.Params{
 			"price": skuInfo.Price,
 			"stocks": skuInfo.Stocks,
+			"code": skuInfo.Code,
 			//"user_code": skuInfo.SkuCode,
 			//"sku_code": skuInfo.SkuCode,
 			"cost_price": skuInfo.CostPrice,
@@ -306,20 +310,20 @@ func (this *UpdateProductService) __addSkus(productId int, skuInfos []*productSk
 		//创建ProductSkuHasPropertyValue记录
 		relationModels := make([]*m_product.ProductSkuHasPropertyValue, 0)
 		for _, model := range models {
-			relationModel := m_product.ProductSkuHasPropertyValue{}
 			if skuInfo, ok := name2skuinfo[model.Name]; ok {
 				for _, property := range skuInfo.Properties {
+					relationModel := &m_product.ProductSkuHasPropertyValue{}
 					relationModel.PropertyId = property.PropertyId
 					relationModel.PropertyValueId = property.PropertyValueId
 					relationModel.SkuId = model.Id
-					relationModels = append(relationModels, &relationModel)
+					relationModels = append(relationModels, relationModel)
 				}
 			}
 		}
 		
 		//TODO: 替换为o.BatchInsert方案
-		for _, model := range relationModels {
-			db := o.Create(model)
+		for _, relationModel := range relationModels {
+			db := o.Create(relationModel)
 			if db.Error != nil {
 				eel.Logger.Error(db.Error)
 				panic(eel.NewBusinessError("product:add_sku_fail_2", fmt.Sprintf("添加商品规格失败")))
