@@ -101,12 +101,12 @@ const LIMITZONE_TYPE_SALE = 1
 const LIMITZONE_TYPE_FORBIDDEN = 2
 type ProductLogisticsInfo struct {
 	Id int `gorm:"primary_key"`
-	ProductId int `orm:"index"`
+	ProductId int `gorm:"index"`
 	PostageType string //运费类型
 	UnifiedPostageMoney float64 //统一运费金额
 	LimitZoneType int
 	LimitZoneId int
-	CreatedAt time.Time `orm:"auto_now_add;type(datetime)"`
+	CreatedAt time.Time `gorm:"auto_now_add;type(datetime)"`
 }
 func (self *ProductLogisticsInfo) TableName() string {
 	return "product_logistics"
@@ -145,15 +145,15 @@ var STR2PPTYPE = map[string]int {
 }
 type PoolProduct struct {
 	eel.Model
-	CorpId int `orm:"index"` //foreign key for corp
+	CorpId int `gorm:"index"` //foreign key for corp
 	ProductId int
 	ProductType string
 	SupplierId int
 	Status int
 	Type int
-	SourcePoolProductId int `orm:"index"` //sync product的source pool product
+	SourcePoolProductId int `gorm:"index"` //sync product的source pool product
 	DisplayIndex int
-	SyncAt time.Time `orm:"type(datetime)"`
+	SyncAt time.Time `gorm:"type(datetime)"`
 }
 func (self *PoolProduct) TableName() string {
 	return "product_pool_product"
@@ -164,7 +164,7 @@ type ProductLabel struct {
 	eel.Model
 	CorpId int `gorm:"index"` //foreign key for corp
 	Name string
-	IsEnabled bool `orm:"default(true)"`
+	IsEnabled bool `gorm:"default(true)"`
 }
 func (self *ProductLabel) TableName() string {
 	return "product_label"

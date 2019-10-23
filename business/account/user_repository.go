@@ -3,6 +3,7 @@ package account
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/gingerxman/eel"
 )
 
@@ -34,41 +35,41 @@ func (this *UserRepository) makeUsers(userDatas []interface{}) []*User {
 	return users
 }
 
-//func (this *UserRepository) GetUsers(ids []int) []*User {
-//	options := make(map[string]interface{})
-//	options["with_role_info"] = true
-//	resp, err := eel.NewResource(this.Ctx).Get("gskep", "account.users", eel.Map{
-//		"ids": eel.ToJsonString(ids),
-//		"with_options": eel.ToJsonString(options),
-//	})
-//
-//	if err != nil {
-//		eel.Logger.Error(err)
-//		return nil
-//	}
-//
-//	respData := resp.Data()
-//	userDatas := respData.Get("users")
-//	fmt.Println(userDatas)
-//	return this.makeUsers(userDatas.MustArray())
-//}
-//
-//func (this *UserRepository) GetUsersWithOptions(ids []int, options map[string]interface{}) []*User {
-//	resp, err := eel.NewResource(this.Ctx).Get("gskep", "account.users", eel.Map{
-//		"ids": eel.ToJsonString(ids),
-//		"with_options": eel.ToJsonString(options),
-//	})
-//
-//	if err != nil {
-//		eel.Logger.Error(err)
-//		return nil
-//	}
-//
-//	respData := resp.Data()
-//	userDatas := respData.Get("users")
-//	return this.makeUsers(userDatas.MustArray())
-//}
-//
+func (this *UserRepository) GetUsers(ids []int) []*User {
+	options := make(map[string]interface{})
+	options["with_role_info"] = true
+	resp, err := eel.NewResource(this.Ctx).Get("gskep", "account.users", eel.Map{
+		"ids": eel.ToJsonString(ids),
+		"with_options": eel.ToJsonString(options),
+	})
+
+	if err != nil {
+		eel.Logger.Error(err)
+		return nil
+	}
+
+	respData := resp.Data()
+	userDatas := respData.Get("users")
+	fmt.Println(userDatas)
+	return this.makeUsers(userDatas.MustArray())
+}
+
+func (this *UserRepository) GetUsersWithOptions(ids []int, options map[string]interface{}) []*User {
+	resp, err := eel.NewResource(this.Ctx).Get("gskep", "account.users", eel.Map{
+		"ids": eel.ToJsonString(ids),
+		"with_options": eel.ToJsonString(options),
+	})
+
+	if err != nil {
+		eel.Logger.Error(err)
+		return nil
+	}
+
+	respData := resp.Data()
+	userDatas := respData.Get("users")
+	return this.makeUsers(userDatas.MustArray())
+}
+
 //func (this *UserRepository) GetUsersByCodes(codes []string) []*User {
 //	resp, err := eel.NewResource(this.Ctx).Get("gskep", "account.users", eel.Map{
 //		"codes": eel.ToJsonString(codes),

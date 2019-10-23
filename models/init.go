@@ -12,6 +12,7 @@ import (
 	_ "github.com/gingerxman/ginger-mall/models/order"
 	_ "github.com/gingerxman/ginger-mall/models/mall"
 	_ "github.com/gingerxman/ginger-mall/models/material"
+	_ "github.com/gingerxman/ginger-mall/models/coupon"
 )
 
 var Db *gorm.DB

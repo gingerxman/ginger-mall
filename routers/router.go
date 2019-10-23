@@ -7,6 +7,7 @@ import (
 	"github.com/gingerxman/ginger-mall/rest/dev"
 	"github.com/gingerxman/ginger-mall/rest/mall"
 	"github.com/gingerxman/ginger-mall/rest/material"
+	"github.com/gingerxman/ginger-mall/rest/order"
 	"github.com/gingerxman/ginger-mall/rest/product"
 )
 
@@ -36,6 +37,11 @@ func init() {
 	eel.RegisterResource(&product.OffshelfProducts{})
 	eel.RegisterResource(&product.OnshelfProducts{})
 	eel.RegisterResource(&product.CreateOptions{})
+	
+	/*
+	 order
+	 */
+	eel.RegisterResource(&order.Order{})
 	
 	/*
 	 mall
