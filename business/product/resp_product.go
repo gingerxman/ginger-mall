@@ -7,6 +7,11 @@ type RProduct struct {
 	CreatedAt string `json:"created_at"`
 }
 
+type RVisitInfo struct {
+	UserCount int `json:"user_count"`
+	ViewCount int `json:"view_count"`
+}
+
 type RPoolProduct struct {
 	Id int `json:"id"`
 	CorpId int `json:"corp_id"`
@@ -17,6 +22,8 @@ type RPoolProduct struct {
 	Skus []*RProductSku `json:"skus"`
 	Labels []*RProductLabel `json:"labels"`
 	Category *RLintProductCategory `json:"category"`
+	VisitInfo *RVisitInfo `json:"visit_info"`
+	Sales int `json:"sales"`
 	IsDeleted bool `json:"is_deleted"`
 	Status string `json:"status"`
 	PlatformProductStatus string `json:"platform_product_status"`

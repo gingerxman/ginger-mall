@@ -241,7 +241,7 @@ Feature: 更新商品
 		}
 		"""
 
-	@ginger-mall @product @wip
+	@ginger-mall @product
 	Scenario: 5. 商品规格在标准规格和定制规格之间切换
 		# 初始验证
 		Given jobs登录系统

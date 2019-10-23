@@ -130,6 +130,11 @@ func (this *EncodePoolProductService) Encode(poolProduct *PoolProduct) *RPoolPro
 		LogisticsInfo: &rLogisticsInfo,
 		Medias: rProductMedias,
 		Category: rCategory,
+		Sales: 101,
+		VisitInfo: &RVisitInfo{
+			UserCount: 5,
+			ViewCount: 20,
+		},
 		Skus: rSkus,
 		Labels: rLabels,
 		IsDeleted: false,

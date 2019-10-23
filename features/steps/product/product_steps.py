@@ -253,7 +253,8 @@ def __get_product(context, corpuser_name, name):
 	}
 
 	#处理category
-	product['categories'] = [category['name'] for category in resp_data['categories']]
+	category = resp_data['category']
+	product['category'] = category['name'] if category else ''
 
 	#处理媒体信息
 	product['medias'] = resp_data['medias']
