@@ -43,7 +43,7 @@ def child():
 	observer.start()
 
 def app_child():
-	os.execvp("./main", [""])
+	os.execvp("./ginger-mall", [""])
 
 class Watcher:  
 	""" 
@@ -68,7 +68,7 @@ class Watcher:
 	def watch(self):  
 		while True:
 			import subprocess
-			proc = subprocess.Popen("./main", stdout=subprocess.PIPE)
+			proc = subprocess.Popen("./ginger-mall", stdout=subprocess.PIPE)
 			with open('_pid', 'wb') as f:
 				f.write(str(proc.pid))
 
@@ -79,7 +79,7 @@ class Watcher:
 						print line.rstrip()
 					else:
 						print '\n\n========= Compile EEL ========='
-						os.system('go build -mod=vendor -v ./main.go')
+						os.system('go build -o ginger-mall -mod=vendor -v ./main.go')
 						break
 			except KeyboardInterrupt:
 				print 'Ctrl+C received, stop'
@@ -111,7 +111,7 @@ class Watcher:
   
 
 if __name__ == '__main__':
-	exit_status = os.system('go build -mod=vendor -v ./main.go')
+	exit_status = os.system('go build -o ginger-mall -mod=vendor -v ./main.go')
 	if exit_status != 0:
 		print '[Error] Compile Fail!!!'
 	else:

@@ -14,7 +14,6 @@ Feature: 更新商品规格
 			"username": "tom"
 		}]
 		"""
-		Given zhouxun注册为App用户
 
 	@ginger-mall @product
 	Scenario: 管理员更新商品属性

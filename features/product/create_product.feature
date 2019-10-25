@@ -46,7 +46,7 @@ Feature: 创建商品
 		}]
 		"""
 
-	@ginger-mall @product @wip
+	@ginger-mall @product
 	Scenario: 1. 管理员创建标准规格商品
 		# 初始验证
 		Given jobs登录系统

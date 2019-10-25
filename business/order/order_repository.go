@@ -144,7 +144,8 @@ func (this *OrderRepository) GetPagedOrders(filters eel.Map, page *eel.PageInfo,
 		db = db.Order(expr)
 	}
 	
-	paginateResult, err := eel.Paginate(db, page, &models)
+	paginateResult, db := eel.Paginate(db, page, &models)
+	err := db.Error
 	if err != nil {
 		eel.Logger.Error(err)
 		return orders, paginateResult
@@ -202,7 +203,8 @@ func (this *OrderRepository) GetPagedOrdersForCorp(corp business.ICorp, filters 
 		db = db.Order(expr)
 	}
 	
-	paginateResult, err := eel.Paginate(db, page, &models)
+	paginateResult, db := eel.Paginate(db, page, &models)
+	err := db.Error
 	if err != nil {
 		eel.Logger.Error(err)
 		return orders, paginateResult
@@ -213,31 +215,6 @@ func (this *OrderRepository) GetPagedOrdersForCorp(corp business.ICorp, filters 
 	}
 	return orders, paginateResult
 }
-
-//
-//func (this *OrderRepository) GetPagedProductCategories(filters eel.Map, page *eel.PageInfo, orderExprs ...string) ([]*Order, eel.INextPageInfo) {
-//	o := eel.GetOrmFromContext(this.Ctx)
-//	db := o.Model(&m_order.Order{})
-//
-//	var models []*m_order.Order
-//	if len(filters) > 0 {
-//		db = db.Where(filters)
-//	}
-//	if len(orderExprs) > 0 {
-//		db = db.OrderBy(orderExprs...)
-//	}
-//	paginateResult, err := eel.Paginate(db, page, &models)
-//	if err != nil {
-//		eel.Logger.Error(err)
-//		return nil, paginateResult
-//	}
-//
-//	orders := make([]*Order, 0)
-//	for _, model := range models {
-//		orders = append(orders, NewOrderFromModel(this.Ctx, model))
-//	}
-//	return orders, paginateResult
-//}
 
 func (this *OrderRepository) GetOrderByBid(bid string) *Order {
 	filters := eel.Map{

@@ -56,8 +56,8 @@ func (this *CouponRepository) GetPagedCoupons(filters eel.Map, page *eel.PageInf
 	for _, expr := range orderExprs {
 		db = db.Order(expr)
 	}
-	paginateResult, err := eel.Paginate(db, page, &models)
-	
+	paginateResult, db := eel.Paginate(db, page, &models)
+	err := db.Error
 	if err != nil {
 		eel.Logger.Error(err)
 		return nil, paginateResult

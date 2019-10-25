@@ -52,9 +52,9 @@ func (this *ProductRepository) GetPagedProducts(filters eel.Map, page *eel.PageI
 	for _, expr := range orderExprs {
 		db = db.Order(expr)
 	}
-	paginateResult, err := eel.Paginate(db, page, &models)
+	paginateResult, db := eel.Paginate(db, page, &models)
 	
-	if err != nil {
+	if db.Error != nil {
 		eel.Logger.Error(db.Error)
 		return nil, paginateResult
 	}

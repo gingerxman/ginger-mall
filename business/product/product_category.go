@@ -87,8 +87,8 @@ func (this *ProductCategory) GetPagedProducts(filters eel.Map, page *eel.PageInf
 	if len(orderExprs) > 0 {
 		qs = qs.Order(orderExprs)
 	}
-	paginateResult, err := eel.Paginate(qs, page, &models)
-	
+	paginateResult, db := eel.Paginate(qs, page, &models)
+	err := db.Error
 	if err != nil {
 		eel.Logger.Error(err)
 		return nil, paginateResult

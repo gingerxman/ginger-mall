@@ -35,6 +35,6 @@ func init() {
 		eel.Logger.Infof("[db] connect to mysql %s success!", mysqlURL)
 	}
 
-	//Db.LogMode(true)
+	Db.LogMode(true)
 	eel.Runtime.DB = Db
 }
