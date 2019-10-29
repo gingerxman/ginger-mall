@@ -51,6 +51,8 @@ func init() {
 	 mall
 	 */
 	eel.RegisterResource(&mall.SubCategories{})
+	eel.RegisterResource(&mall.Products{})
+	eel.RegisterResource(&mall.Product{})
 	eel.RegisterResource(&ship_info.ShipInfo{})
 	eel.RegisterResource(&ship_info.ShipInfos{})
 	eel.RegisterResource(&ship_info.DefaultShipInfo{})

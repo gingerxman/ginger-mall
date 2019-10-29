@@ -29,7 +29,7 @@ def step_impl(context, user):
 	context.client = bdd_client.login('app', user, password=None, context=context)
 	resp = context.client.post('ginger-account:user.user', {
 		'id': context.client.cur_user_id,
-		'avatar': 'http://resource.vxiaocheng.com/ginger/girls/%s/avatar.jpg' % user
+		'avatar': 'http://resource.vxiaocheng.com/ginger/girls/%s.jpg' % user
 	})
 	bdd_util.assert_api_call_success(resp)
 

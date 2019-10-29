@@ -253,7 +253,6 @@ Scenario: 初始化系统数据
 			}]
 		}
 		"""
-	Then 结束测试
 
 	#lily购买
 	Given lily注册为App用户
@@ -285,13 +284,17 @@ Scenario: 初始化系统数据
 	When lily购买'bill'的商品
 		"""
 		{
-			"ship_name": "杨幂",
+			"ship_name": "Lily",
 			"ship_tel": "13811223344",
 			"ship_area": "江苏省 南京市 秦淮区",
 			"ship_address": "桃花渡",
 			"products": [{
-				"name": "东坡肘子",
+				"name": "单身狗粮（SINGLE DOG） 地中海盐味马铃薯片71g 网红膨化小吃袋装",
 				"count": 1
 			}]
 		}
 		"""
+
+	#gail 购买
+	Given gal注册为App用户
+	Given gal访问'jobs'的商城
