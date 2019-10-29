@@ -8,6 +8,7 @@ import (
 	"github.com/gingerxman/ginger-mall/rest/dev"
 	"github.com/gingerxman/ginger-mall/rest/mall"
 	"github.com/gingerxman/ginger-mall/rest/mall/ship_info"
+	"github.com/gingerxman/ginger-mall/rest/mall/shopping_cart"
 	"github.com/gingerxman/ginger-mall/rest/material"
 	"github.com/gingerxman/ginger-mall/rest/order"
 	"github.com/gingerxman/ginger-mall/rest/product"
@@ -53,9 +54,14 @@ func init() {
 	eel.RegisterResource(&mall.SubCategories{})
 	eel.RegisterResource(&mall.Products{})
 	eel.RegisterResource(&mall.Product{})
+	//ship_info
 	eel.RegisterResource(&ship_info.ShipInfo{})
 	eel.RegisterResource(&ship_info.ShipInfos{})
 	eel.RegisterResource(&ship_info.DefaultShipInfo{})
+	//shopping_cart
+	eel.RegisterResource(&shopping_cart.ShoppingCartItem{})
+	eel.RegisterResource(&shopping_cart.ShoppingCart{})
+	eel.RegisterResource(&shopping_cart.ProductCount{})
 	
 	/*
 	 material

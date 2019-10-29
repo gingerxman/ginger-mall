@@ -44,7 +44,7 @@ def get_sku_name_from_display_name(sku_name):
 
 	objs = bdd_util.exec_sql("select * from product_sku", [])
 	for obj in objs:
-		if sku_name in obj['sku_code']:
+		if sku_name in obj['code']:
 			return obj['name']
 
 def get_product_properties():
