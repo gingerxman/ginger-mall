@@ -88,7 +88,7 @@ func (this *NewOrder) saveOrderInDb(saveType string, resources []business.IResou
 	model.ShipName = shipInfo.Name
 	model.ShipPhone = shipInfo.Phone
 	model.ShipAddress = shipInfo.Address
-	model.ShipAreaCode = shipInfo.GetAreaCode()
+	model.ShipAreaCode = shipInfo.AreaCode
 	
 	if purchaseInfo.OrderType == "product" {
 		model.Type = m_order.ORDER_TYPE_PRODUCT_ORDER

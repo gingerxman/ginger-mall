@@ -3,7 +3,7 @@ package order
 import (
 	"context"
 	"encoding/json"
-	
+	"fmt"
 	
 	"github.com/gingerxman/eel"
 )
@@ -45,11 +45,14 @@ func (this *EncodeInvoiceService) Encode(invoice *Invoice) *RInvoice {
 	}
 	
 	//编码RShipInfo
-	area := invoice.ShipInfo.Area
+	area := invoice.ShipInfo.GetArea()
+	areaName := fmt.Sprintf("%s %s %s", area.Province.Name, area.City.Name, area.District.Name)
 	rShipInfo := &RShipInfo{
 		Name: invoice.ShipInfo.Name,
 		Phone: invoice.ShipInfo.Phone,
 		Address: invoice.ShipInfo.Address,
+		AreaCode: invoice.ShipInfo.AreaCode,
+		AreaName: areaName,
 		Area: &RArea{
 			Province: &RAreaItem{
 				Id: area.Province.Id,

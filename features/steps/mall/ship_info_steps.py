@@ -10,8 +10,8 @@ def get_ship_info_id_by_address(address):
 	objs = bdd_util.exec_sql("select * from mall_ship_info where address = %s", [address])
 	return objs[0]['id']
 
-def get_area_by_name(client, name):
-	resp = client.get('area.area', {
+def get_area_code_by_name(client, name):
+	resp = client.get('area.area_code', {
 		'name': name
 	})
 	bdd_util.assert_api_call_success(resp)
@@ -33,27 +33,14 @@ def step_impl(context, user):
 	for input_data in input_datas:
 		area_name = input_data.get("area")
 		if area_name:
-			area = get_area_by_name(context.client, area_name)
+			area_code = get_area_code_by_name(context.client, area_name)
 		else:
-			area = {
-				"province": {
-					"id": 10,
-					"name": u"江苏省"
-				},
-				"city": {
-					"id": 74,
-					"name": u"南京市"
-				},
-				"district": {
-					"id": 740,
-					"name": u"秦淮区"
-				}
-			}
+			area_code = '320104' #江苏省 南京市 秦淮区
 
 		data = {
 			"name": input_data.get('name', user),
 			"phone": input_data.get('phone', '13811223344'),
-			"area": json.dumps(area),
+			"area_code": area_code,
 			"address": input_data.get('address', '国创园')
 		}
 		resp = context.client.put("mall.ship_info", data)
@@ -73,8 +60,8 @@ def step_impl(context, user, address):
 
 	#处理area
 	area_name = params["area"]
-	area = get_area_by_name(context.client, area_name)
-	params['area'] = json.dumps(area)
+	area_code = get_area_code_by_name(context.client, area_name)
+	params['area_code'] = area_code
 
 	resp = context.client.post("mall.ship_info", params)
 	bdd_util.assert_api_call_success(resp)

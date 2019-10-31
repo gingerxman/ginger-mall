@@ -401,33 +401,25 @@ func NewInvoiceFromOrder(ctx context.Context, order *Order) *Invoice {
 	model := instance.Model.(*m_order.Order)
 	instance.CreatedAt = model.CreatedAt
 	instance.SupplierId = model.SupplierId
-	
-	var ship shipArea
-	if model.ShipAreaCode == "0_0_0" || model.ShipAreaCode == ""{
-		instance.ShipInfo = &ShipInfo{}
-	}else{
-		area := eel.NewAreaService().GetAreaByCode(model.ShipAreaCode)
-		ship = shipArea{
-			Province: shipAreaItem{
-				Id: area.Province.Id,
-				Name: area.Province.Name,
-			},
-			City: shipAreaItem{
-				Id: area.City.Id,
-				Name: area.City.Name,
-			},
-			District: shipAreaItem{
-				Id: area.District.Id,
-				Name: area.District.Name,
-			},
-		}
-		instance.ShipInfo = &ShipInfo{
-			Name: model.ShipName,
-			Phone: model.ShipPhone,
-			Address: model.ShipAddress,
-			Area: ship,
-		}
+	instance.ShipInfo = &ShipInfo{
+		Name: model.ShipName,
+		Phone: model.ShipPhone,
+		Address: model.ShipAddress,
+		AreaCode: model.ShipAreaCode,
 	}
+	
+	//var ship shipArea
+	//if model.ShipAreaCode == "0_0_0" || model.ShipAreaCode == ""{
+	//	instance.ShipInfo = &ShipInfo{}
+	//}else{
+	//	// area := eel.NewAreaService().GetAreaByCode(model.ShipAreaCode)
+	//	instance.ShipInfo = &ShipInfo{
+	//		Name: model.ShipName,
+	//		Phone: model.ShipPhone,
+	//		Address: model.ShipAddress,
+	//		AreaCode: model.ShipAreaCode,
+	//	}
+	//}
 
 	instance.Products = make([]*OrderProduct, 0)
 	

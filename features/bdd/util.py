@@ -126,14 +126,14 @@ def assert_api_call_success(response):
 # assert_api_call_failed: 验证api调用失败
 ###########################################################################
 def assert_api_call_failed(response, expected_err_code=None):
-	if 200 == response.data['code']:
+	if 200 == response.body['code']:
 		buf = []
 		buf.append('>>>>>>>>>>>>>>> response <<<<<<<<<<<<<<<')
 		buf.append(str(response))
 		logging.error("API calling not expected: %s" % '\n'.join(buf))
-	assert 200 != response.data['code'], "code == 200, call api NOT EXPECTED!!!!"
+	assert 200 != response.body['code'], "code == 200, call api NOT EXPECTED!!!!"
 	if expected_err_code:
-		actual_err_code = str(response.data['errCode'])
+		actual_err_code = str(response.body['errCode'])
 		assert expected_err_code in actual_err_code, "errCode(%s) != '%s', error code FAILED!!!" % (actual_err_code, expected_err_code)
 
 

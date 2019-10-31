@@ -21,14 +21,14 @@ func (this *ShipInfo) GetParameters() map[string][]string {
 		"PUT": []string{
 			"name:string",
 			"phone:string",
-			"area:json",
+			"area_code:string",
 			"address:string",
 		},
 		"POST": []string{
 			"id:int",
 			"name:string",
 			"phone:string",
-			"area:json",
+			"area_code:string",
 			"address:string",
 		},
 		"DELETE": []string{"id:int"},
@@ -61,7 +61,7 @@ func (this *ShipInfo) Put(ctx *eel.Context) {
 	req := ctx.Request
 	name := req.GetString("name")
 	phone := req.GetString("phone")
-	area := req.GetString("area")
+	areaCode := req.GetString("area_code")
 	address := req.GetString("address")
 	
 	bCtx := ctx.GetBusinessContext()
@@ -71,7 +71,7 @@ func (this *ShipInfo) Put(ctx *eel.Context) {
 		user,
 		name,
 		phone,
-		area,
+		areaCode,
 		address,
 	)
 
@@ -85,7 +85,7 @@ func (this *ShipInfo) Post(ctx *eel.Context) {
 	id, _ := req.GetInt("id")
 	name := req.GetString("name")
 	phone := req.GetString("phone")
-	area := req.GetString("area")
+	areaCode := req.GetString("area_code")
 	address := req.GetString("address")
 
 	bCtx := ctx.GetBusinessContext()
@@ -96,7 +96,7 @@ func (this *ShipInfo) Post(ctx *eel.Context) {
 	_ = shipInfo.Update(
 		name,
 		phone,
-		area,
+		areaCode,
 		address,
 	)
 	

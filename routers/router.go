@@ -46,6 +46,7 @@ func init() {
 	 order
 	 */
 	eel.RegisterResource(&order.Order{})
+	eel.RegisterResource(&order.PayedOrder{})
 	eel.RegisterResource(&order.OrderStatus{})
 	
 	/*
@@ -54,6 +55,7 @@ func init() {
 	eel.RegisterResource(&mall.SubCategories{})
 	eel.RegisterResource(&mall.Products{})
 	eel.RegisterResource(&mall.Product{})
+	eel.RegisterResource(&mall.PurchaseData{})
 	//ship_info
 	eel.RegisterResource(&ship_info.ShipInfo{})
 	eel.RegisterResource(&ship_info.ShipInfos{})
@@ -62,6 +64,7 @@ func init() {
 	eel.RegisterResource(&shopping_cart.ShoppingCartItem{})
 	eel.RegisterResource(&shopping_cart.ShoppingCart{})
 	eel.RegisterResource(&shopping_cart.ProductCount{})
+	//order
 	
 	/*
 	 material
@@ -72,6 +75,8 @@ func init() {
 	 area
 	 */
 	eel.RegisterResource(&area.Area{})
+	eel.RegisterResource(&area.AreaCode{})
+	eel.RegisterResource(&area.YouzanAreaList{})
 
 	/*
 	 dev

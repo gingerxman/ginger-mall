@@ -556,7 +556,7 @@ Feature: 将商品添加到购物车
 		}
 		"""
 
-	@ginger-mall @mall @shopping_cart @wip
+	@ginger-mall @mall @shopping_cart
 	Scenario:7 商品添加到购物车后，后台对商品的价格，库存进行修改（库存数量不为0）
 		lucy在webapp中将jobs的商品加入到购物车后，jobs将此商品的商品规格进行修改
 		1.lucy查看jobs的webapp购物车，此商品有效，价格与库存为更改后的值

@@ -7,6 +7,7 @@ from features.bdd import util as bdd_util
 from features.bdd.client import RestClient
 from features.steps.product import product_steps
 from features.steps import plutus_steps
+from features.steps.mall import ship_info_steps
 
 def get_product_category_id_by_name(name):
 	objs = bdd_util.exec_sql("select * from product_category where name = %s", [name])
@@ -95,21 +96,8 @@ def step_impl(context, app_user, corpuser_name):
 		'phone': input_data.get('ship_tel', '13811223344'),
 		'address': input_data.get('ship_address', u'103房'),
 		'name': input_data.get('ship_name', u'默认姓名'),
+		'area_code': ship_info_steps.get_area_code_by_name(context.client, input_data.get('ship_area', '江苏省 南京市 秦淮区'))
 	}
-	area_service = None#AreaService.get()
-	if 'ship_area' in input_data:
-		resp = context.client.get("area.area", {
-			"name": input_data['ship_area']
-		})
-		bdd_util.assert_api_call_success(resp)
-		area = resp.data
-	else:
-		area = {
-			'province': {'id':1, 'name':u'北京市'},
-			'city': {'id':1, 'name':u'北京市'},
-			'district': {'id':1, 'name':u'西城区'},
-		}
-	ship_info['area'] = area
 
 	#imoney
 	imoney_usages = []
@@ -172,7 +160,7 @@ def step_impl(context, webapp_user_name):
 		'delivery_items': [],
 		'imoneys': [resource for resource in order_data['resources'] if resource['type'] == 'imoney']
 	}
-	for delivery_item in order_data['delivery_items']:
+	for delivery_item in order_data['invoices']:
 		ship_info = delivery_item['ship_info']
 		area = ship_info['area']
 		delivery_item_data = {

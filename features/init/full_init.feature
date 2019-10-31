@@ -214,7 +214,7 @@ Scenario: 初始化系统数据
 			"name": "Lucy1",
 			"phone": "13811223355",
 			"area": "江苏省 南京市 秦淮区",
-			"address": "创业大厦"
+			"address": "夫子庙"
 		},{
 			"name": "Lucy2",
 			"phone": "13811223356",
@@ -222,7 +222,7 @@ Scenario: 初始化系统数据
 			"address": "海岸城"
 		}]
 		"""
-	When lucy设置收货地址'创业大厦'为默认收货地址
+	When lucy设置收货地址'夫子庙'为默认收货地址
 	When lucy购买'jobs'的商品
 		"""
 		{
@@ -289,6 +289,7 @@ Scenario: 初始化系统数据
 			"ship_area": "江苏省 南京市 秦淮区",
 			"ship_address": "桃花渡",
 			"products": [{
+				"sku": "地中海海盐味",
 				"name": "单身狗粮（SINGLE DOG） 地中海盐味马铃薯片71g 网红膨化小吃袋装",
 				"count": 1
 			}]

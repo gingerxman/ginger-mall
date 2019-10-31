@@ -31,6 +31,14 @@ func (this *BDDReset) Put(ctx *eel.Context) {
 	o := eel.GetOrmFromContext(bCtx)
 	
 	o.Exec("delete from mall_shopping_cart")
+	o.Exec("delete from mall_ship_info")
+	
+	o.Exec("delete from order_has_product")
+	o.Exec("delete from order_has_logistics")
+	o.Exec("delete from order_operation_log")
+	o.Exec("delete from order_status_log")
+	o.Exec("delete from order_order")
+	
 	o.Exec("delete from product_has_label")
 	o.Exec("delete from product_label")
 	o.Exec("delete from product_sku_has_property")

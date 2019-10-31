@@ -2,16 +2,14 @@ package ship_info
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/gingerxman/ginger-mall/business"
 	m_mall "github.com/gingerxman/ginger-mall/models/mall"
 	"time"
 	
-	
-	"github.com/gingerxman/gorm"
 	"github.com/gingerxman/eel"
+	"github.com/gingerxman/gorm"
 )
 
 type sAreaItem struct {
@@ -47,25 +45,19 @@ type ShipInfo struct {
 func (this *ShipInfo) Update(
 	name string,
 	phone string,
-	areaJsonStr string,
+	areaCode string,
 	address string,
 ) error {
 	var model m_mall.ShipInfo
 	o := eel.GetOrmFromContext(this.Ctx)
 	
-	areaInfo := sAreaInfo{}
-	err := json.Unmarshal([]byte(areaJsonStr), &areaInfo)
-	if err != nil {
-		eel.Logger.Error(err)
-		panic(eel.NewBusinessError("shipInfo:parse_area_fail", err.Error()))
-	}
-
+	area := eel.NewAreaService().GetAreaByCode(areaCode)
+	
 	db := o.Model(&model).Where("id", this.Id).Update(gorm.Params{
 		"name": name,
 		"phone": phone,
-		"area": fmt.Sprintf("%s %s %s", areaInfo.Province.Name, areaInfo.City.Name, areaInfo.District.Name),
-		"area_code": fmt.Sprintf("%d_%d_%d", areaInfo.Province.Id, areaInfo.City.Id, areaInfo.District.Id),
-		"area_json": areaJsonStr,
+		"area": fmt.Sprintf("%s %s %s", area.Province.Name, area.City.Name, area.District.Name),
+		"area_code": areaCode,
 		"address": address,
 	})
 
@@ -150,17 +142,12 @@ func NewShipInfo(
 	user business.IUser,
 	name string,
 	phone string,
-	areaJsonStr string,
+	areaCode string,
 	address string,
 ) *ShipInfo {
 	o := eel.GetOrmFromContext(ctx)
 	
-	areaInfo := sAreaInfo{}
-	err := json.Unmarshal([]byte(areaJsonStr), &areaInfo)
-	if err != nil {
-		eel.Logger.Error(err)
-		panic(eel.NewBusinessError("shipInfo:parse_area_fail", err.Error()))
-	}
+	area := eel.NewAreaService().GetAreaByCode(areaCode)
 
 	//保存数据
 	model := m_mall.ShipInfo{}
@@ -169,9 +156,9 @@ func NewShipInfo(
 	model.UserId = user.GetId()
 	model.Name = name
 	model.Phone = phone
-	model.Area = fmt.Sprintf("%s %s %s", areaInfo.Province.Name, areaInfo.City.Name, areaInfo.District.Name)
-	model.AreaCode = fmt.Sprintf("%d_%d_%d", areaInfo.Province.Id, areaInfo.City.Id, areaInfo.District.Id)
-	model.AreaJson = areaJsonStr
+	model.Area = fmt.Sprintf("%s %s %s", area.Province.Name, area.City.Name, area.District.Name)
+	model.AreaCode = areaCode
+	model.AreaJson = ""
 	model.Address = address
 	model.IsDefault = false
 	

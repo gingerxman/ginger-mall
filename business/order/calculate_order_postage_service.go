@@ -81,7 +81,7 @@ func (this *CalculateOrderPostageService) getMatchedSpecialAreaConfig(mergedProd
 		return nil
 	}
 	
-	provinceId := shipInfo.Area.Province.Id
+	provinceId := shipInfo.GetArea().Province.Id
 	for _, specialAreaConfig := range postageConfig.SpecialAreaPostageConfigs {
 		if this.isProvinceInDestinations(provinceId, specialAreaConfig.Destination) {
 			return specialAreaConfig
@@ -96,7 +96,7 @@ func (this *CalculateOrderPostageService) getMatchedFreeConfig(mergedProducts []
 		return nil
 	}
 	
-	provinceId := shipInfo.Area.Province.Id
+	provinceId := shipInfo.GetArea().Province.Id
 	
 	purchaseCount := 0
 	for _, mergedProduct := range mergedProducts {
@@ -121,11 +121,10 @@ func (this *CalculateOrderPostageService) getMatchedFreeConfig(mergedProducts []
 	return nil
 }
 
-func (this *CalculateOrderPostageService) isProvinceInDestinations(provinceId int, destinations string) bool {
+func (this *CalculateOrderPostageService) isProvinceInDestinations(provinceId string, destinations string) bool {
 	items := strings.Split(destinations, ",")
-	strProvinceId := strconv.Itoa(provinceId)
 	for _, item := range items {
-		if item == strProvinceId {
+		if item == provinceId {
 			return true
 		}
 	}

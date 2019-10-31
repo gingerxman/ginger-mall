@@ -200,7 +200,7 @@ func (this *Order) save() {
 
 func (this *Order) updateInvoices(params gorm.Params){
 	o := eel.GetOrmFromContext(this.Ctx)
-	db := o.Model(&m_order.Order{}).Where("OriginalOrderId", this.Id).Update(params)
+	db := o.Model(&m_order.Order{}).Where("original_order_id", this.Id).Update(params)
 	err := db.Error
 	if err != nil{
 		eel.Logger.Error(err)

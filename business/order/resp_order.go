@@ -7,7 +7,7 @@ type ROrder struct {
 	UserId int `json:"user_id"`
 	Status string `json:"status"`
 	FinalMoney float64 `json:"final_money"`
-	Invoices []*RInvoice `json:"delivery_items"`
+	Invoices []*RInvoice `json:"invoices"`
 	IsDeleted bool `json:"is_deleted"`
 	Resources []map[string]interface{} `json:"resources"`
 	CreatedAt string `json:"created_at"`
@@ -22,7 +22,7 @@ type ROrder struct {
 }
 
 type RAreaItem struct {
-	Id int `json:"id"`
+	Id string `json:"id"`
 	Name string `json:"name"`
 }
 
@@ -36,6 +36,8 @@ type RShipInfo struct {
 	Name string `json:"name"`
 	Phone string `json:"phone"`
 	Address string `json:"address"`
+	AreaCode string `json:"area_code"`
+	AreaName string `json:"area_name"`
 	Area *RArea `json:"area"`
 }
 
