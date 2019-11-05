@@ -231,6 +231,36 @@ Scenario: 初始化系统数据
 			"ship_area": "江苏省 南京市 秦淮区",
 			"ship_address": "夫子庙",
 			"products": [{
+				"name": "松鼠桂鱼",
+				"sku": "小碗 变态辣",
+				"count": 3
+			}, {
+				"name": "热干面",
+				"count": 2
+			}]
+		}
+		"""
+	When lucy购买'jobs'的商品
+		"""
+		{
+			"ship_name": "Lucy",
+			"ship_tel": "13811223344",
+			"ship_area": "江苏省 南京市 秦淮区",
+			"ship_address": "夫子庙",
+			"products": [{
+				"name": "东坡肘子",
+				"count": 1
+			}]
+		}
+		"""
+	When lucy购买'jobs'的商品
+		"""
+		{
+			"ship_name": "Lucy",
+			"ship_tel": "13811223344",
+			"ship_area": "江苏省 南京市 秦淮区",
+			"ship_address": "夫子庙",
+			"products": [{
 				"name": "东坡肘子",
 				"count": 2
 			}]
@@ -244,12 +274,34 @@ Scenario: 初始化系统数据
 			"ship_area": "江苏省 南京市 秦淮区",
 			"ship_address": "夫子庙",
 			"products": [{
-				"name": "松鼠桂鱼",
-				"sku": "小碗 变态辣",
+				"name": "东坡肘子",
 				"count": 3
-			}, {
-				"name": "热干面",
-				"count": 2
+			}]
+		}
+		"""
+	When lucy购买'jobs'的商品
+		"""
+		{
+			"ship_name": "Lucy",
+			"ship_tel": "13811223344",
+			"ship_area": "江苏省 南京市 秦淮区",
+			"ship_address": "夫子庙",
+			"products": [{
+				"name": "东坡肘子",
+				"count": 4
+			}]
+		}
+		"""
+	When lucy购买'jobs'的商品
+		"""
+		{
+			"ship_name": "Lucy",
+			"ship_tel": "13811223344",
+			"ship_area": "江苏省 南京市 秦淮区",
+			"ship_address": "夫子庙",
+			"products": [{
+				"name": "东坡肘子",
+				"count": 5
 			}]
 		}
 		"""

@@ -3,6 +3,7 @@ package order
 import (
 	"context"
 	"fmt"
+	"github.com/davecgh/go-spew/spew"
 	
 	"github.com/gingerxman/eel"
 	"github.com/gingerxman/ginger-mall/business"
@@ -92,7 +93,10 @@ func (this *OrderRepository) parseFilters(filters map[string]interface{}) map[st
 					}
 					orderFilters[key] = status
 				} else {
-					orderFilters[key] = m_order.STR2STATUS[value.(string)]
+					strValue := value.(string)
+					if strValue != "all" {
+						orderFilters[key] = m_order.STR2STATUS[value.(string)]
+					}
 				}
 			} else {
 				orderFilters[key] = value
@@ -144,6 +148,7 @@ func (this *OrderRepository) GetPagedOrders(filters eel.Map, page *eel.PageInfo,
 		db = db.Order(expr)
 	}
 	
+	spew.Dump(page)
 	paginateResult, db := eel.Paginate(db, page, &models)
 	err := db.Error
 	if err != nil {
@@ -214,6 +219,14 @@ func (this *OrderRepository) GetPagedOrdersForCorp(corp business.ICorp, filters 
 		orders = append(orders, NewOrderFromModel(this.Ctx, model))
 	}
 	return orders, paginateResult
+}
+
+func (this *OrderRepository) GetPagedOrdersForUserInCorp(user business.IUser, corp business.ICorp, filters eel.Map, page *eel.PageInfo, orderExprs ...string) ([]*Order, eel.INextPageInfo) {
+	filters["user_id"] = user.GetId()
+	filters["corp_id"] = corp.GetId()
+	filters["type"] = m_order.ORDER_TYPE_PRODUCT_ORDER
+	
+	return this.GetPagedOrders(filters, page, orderExprs...)
 }
 
 func (this *OrderRepository) GetOrderByBid(bid string) *Order {

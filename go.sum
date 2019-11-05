@@ -49,6 +49,8 @@ github.com/gingerxman/eel v0.0.0-20191023101105-c0def5bd1fbb h1:QV1MBuvhC8QzDvvf
 github.com/gingerxman/eel v0.0.0-20191023101105-c0def5bd1fbb/go.mod h1:6UJiQB54+llSS7avXbjs9PM2ODpXfM2Fe4RLqrws7wY=
 github.com/gingerxman/eel v0.0.0-20191023115511-861a9450fe03 h1:dMBK0b03JiMXl3v5LAaU+KCA9M99cpie8vdCEwG7p/0=
 github.com/gingerxman/eel v0.0.0-20191023115511-861a9450fe03/go.mod h1:6UJiQB54+llSS7avXbjs9PM2ODpXfM2Fe4RLqrws7wY=
+github.com/gingerxman/eel v0.0.0-20191031123539-760e5ab0334a h1:K2NT3tiGHhs7ueflVo3oiVZGLhTfibSvJ0Tu1ZAy7Ko=
+github.com/gingerxman/eel v0.0.0-20191031123539-760e5ab0334a/go.mod h1:6UJiQB54+llSS7avXbjs9PM2ODpXfM2Fe4RLqrws7wY=
 github.com/gingerxman/gorm v1.10.3 h1:6RpFygs1SIfydtpnRaCpc6wjBDF16LkHT94SuFNr8AE=
 github.com/gingerxman/gorm v1.10.3/go.mod h1:ieZuWDmJo3kpFdWDTaT2LchtC7Znkn22hBXcF7Spl6Y=
 github.com/gingerxman/gorm v1.10.4 h1:NGg3f6eBrxp1yGLhMni0wk73ONv78AwCCN+CYfD+MmU=

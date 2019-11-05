@@ -3,6 +3,7 @@ package order
 import (
 	"encoding/json"
 	"github.com/gingerxman/eel"
+	"github.com/gingerxman/ginger-mall/business/account"
 	b_order "github.com/gingerxman/ginger-mall/business/order"
 	"github.com/gingerxman/ginger-mall/business/order/resource"
 )
@@ -169,8 +170,8 @@ func (this *Order) parsePurchaseInfo(ctx *eel.Context) *b_order.PurchaseInfo {
 	bCtx := ctx.GetBusinessContext()
 	
 	//确定corpId
-	corpId, _ := req.GetInt("corp_id", 0)
-	purchaseInfo.CorpId = corpId
+	corp := account.GetCorpFromContext(bCtx)
+	purchaseInfo.CorpId = corp.GetId()
 	
 	extraData := this.parseExtraData(ctx)
 	bizCode := req.GetString("biz_code", "")
@@ -178,7 +179,7 @@ func (this *Order) parsePurchaseInfo(ctx *eel.Context) *b_order.PurchaseInfo {
 		if v, ok := extraData["source_service"]; ok && v != nil{
 			bizCode = v.(string)
 		}else{
-			bizCode = "bacchus_app"
+			bizCode = "app"
 		}
 	}
 	purchaseInfo.CustomerMessage = req.GetString("message", "")
