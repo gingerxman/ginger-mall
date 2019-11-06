@@ -138,8 +138,8 @@ def __format_product_sku_info(context, product):
 	if 'skus' in product:
 		for sku_display_name, sku_info in product['skus'].items():
 			data = {
-				"price": sku_info.get('price', 1.0),
-				"cost_price": sku_info.get('cost_price', 1.0),
+				"price": int(round(sku_info.get('price', 1.0) * 100, 0)),
+				"cost_price": int(round(sku_info.get('cost_price', 1.0) * 100, 0)),
 				"stocks": sku_info.get('stocks', 10),
 				"code": sku_info.get('code', 'code_%s' % sku_display_name)
 			}
@@ -160,8 +160,8 @@ def __format_product_sku_info(context, product):
 	else:
 		standard_sku = {
 			"name": "standard",
-			"price": product.get('price', 1.0),
-			"cost_price": product.get('cost_price', 1.0),
+			"price": int(round(product.get('price', 1.0) * 100, 0)),
+			"cost_price": int(round(product.get('cost_price', 1.0) * 100, 0)),
 			"stocks": 9999,
 			"code": 'code',
 			'properties': []
@@ -266,6 +266,8 @@ def __get_product(context, corpuser_name, name):
 	skus = resp_data['skus']
 	name2sku = {}
 	for sku in skus:
+		sku['price'] = bdd_util.format_price(sku['price'])
+		sku['cost_price'] = bdd_util.format_price(sku['cost_price'])
 		name = sku['name']
 		if name != 'standard':
 			name = ' '.join([property_value['text'] for property_value in sku['property_values']])
@@ -291,6 +293,8 @@ def __get_format_products(products):
 		skus = product['skus']
 		name2sku = {}
 		for sku in skus:
+			sku['price'] = bdd_util.format_price(sku['price'])
+			sku['cost_price'] = bdd_util.format_price(sku['cost_price'])
 			name = sku['name']
 			if name != 'standard':
 				name = ' '.join([property_value['text'] for property_value in sku['property_values']])

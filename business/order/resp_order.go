@@ -6,7 +6,7 @@ type ROrder struct {
 	CorpId int `json:"corp_id"`
 	UserId int `json:"user_id"`
 	Status string `json:"status"`
-	FinalMoney float64 `json:"final_money"`
+	FinalMoney int `json:"final_money"`
 	Invoices []*RInvoice `json:"invoices"`
 	IsDeleted bool `json:"is_deleted"`
 	Resources []map[string]interface{} `json:"resources"`
@@ -17,7 +17,7 @@ type ROrder struct {
 	Message string `json:"message"`
 	ExtraData map[string]interface{} `json:"extra_data"`
 	
-	ProductPrice float64 `json:"product_price"`
+	ProductPrice int `json:"product_price"`
 	Postage float64 `json:"postage"`
 }
 
@@ -55,8 +55,8 @@ type RInvoice struct {
 	PaymentType string `json:"payment_type"`
 	PaymentTime string `json:"payment_time"`
 	Postage float64 `json:"postage"`
-	FinalMoney float64 `json:"final_money"`
-	ProductPrice float64 `json:"product_price"`
+	FinalMoney int `json:"final_money"`
+	ProductPrice int `json:"product_price"`
 	IsCleared bool `json:"is_cleared"`
 	CreatedAt string `json:"created_at"`
 	ShipInfo *RShipInfo `json:"ship_info"`
@@ -70,7 +70,7 @@ type ROrderProduct struct {
 	Id int `json:"id"`
 	SupplierId int `json:"supplier_id"`
 	Name string `json:"name"`
-	Price float64 `json:"price"`
+	Price int `json:"price"`
 	Weight float64 `json:"weight"`
 	Thumbnail string `json:"thumbnail""`
 	Sku string `json:"sku_name"`

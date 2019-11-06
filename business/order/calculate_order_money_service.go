@@ -18,10 +18,10 @@ func NewCalculateOrderMoneyService(ctx context.Context) *CalculateOrderMoneyServ
 }
 
 func (this *CalculateOrderMoneyService) Calculate(resources []business.IResource, purchaseInfo *PurchaseInfo, newOrder *NewOrder) *orderMoneyInfo {
-	var finalMoney float64 = 0.0
-	var productPrice float64 = 0.0
+	var finalMoney int = 0.0
+	var productPrice int = 0
 	var postageMoney float64 = 0.0
-	var deductionMoney float64 = 0.0
+	var deductionMoney int = 0
 	
 	products := make([]business.IResource, 0)
 	for _, resource := range resources {
@@ -44,7 +44,7 @@ func (this *CalculateOrderMoneyService) Calculate(resources []business.IResource
 	
 	postageMoney = NewCalculateOrderPostageService(this.Ctx).Calculate(products, purchaseInfo)
 	//加入运费
-	finalMoney += postageMoney
+	finalMoney += int(postageMoney)
 	
 	moneyInfo := &orderMoneyInfo{
 		Postage: postageMoney,

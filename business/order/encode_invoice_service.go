@@ -24,7 +24,7 @@ func (this *EncodeInvoiceService) Encode(invoice *Invoice) *RInvoice {
 		return nil
 	}
 	
-	totalProductPrice := 0.0
+	totalProductPrice := 0
 	
 	rProducts := make([]*ROrderProduct, 0)
 	for _, orderProduct := range invoice.Products {
@@ -32,7 +32,7 @@ func (this *EncodeInvoiceService) Encode(invoice *Invoice) *RInvoice {
 			Id: orderProduct.ProductId,
 			SupplierId: orderProduct.SupplierId,
 			Name: orderProduct.Name,
-			Price: eel.Decimal(orderProduct.Price),
+			Price: orderProduct.Price,
 			Weight: eel.Decimal(orderProduct.Weight),
 			Thumbnail: orderProduct.Thumbnail,
 			Sku: orderProduct.Sku,
@@ -41,7 +41,7 @@ func (this *EncodeInvoiceService) Encode(invoice *Invoice) *RInvoice {
 		}
 		
 		rProducts = append(rProducts, rProduct)
-		totalProductPrice += rProduct.Price * float64(orderProduct.PurchaseCount)
+		totalProductPrice += rProduct.Price * orderProduct.PurchaseCount
 	}
 	
 	//编码RShipInfo
@@ -89,8 +89,8 @@ func (this *EncodeInvoiceService) Encode(invoice *Invoice) *RInvoice {
 		Bid: invoice.Bid,
 		Status: invoice.GetStatusText(),
 		Postage: eel.Decimal(invoice.Money.Postage),
-		FinalMoney: eel.Decimal(invoice.Money.FinalMoney),
-		ProductPrice: eel.Decimal(totalProductPrice),
+		FinalMoney: invoice.Money.FinalMoney,
+		ProductPrice: totalProductPrice,
 		IsCleared: invoice.IsCleared,
 		Products: rProducts,
 		LogisticsInfo: rLogistics,

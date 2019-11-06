@@ -21,8 +21,8 @@ type ProductSku struct {
 	Name string
 	Code string
 	IsStandard bool
-	Price float64
-	CostPrice float64
+	Price int
+	CostPrice int
 	Stocks int
 	IsDeleted bool
 	CreatedAt time.Time

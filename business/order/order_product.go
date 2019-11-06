@@ -15,7 +15,7 @@ type OrderProduct struct {
 	Sku string
 	SkuDisplayName string
 	PurchaseCount int
-	Price float64
+	Price int
 	Weight float64
 	
 	OrderId int

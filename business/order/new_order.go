@@ -20,7 +20,7 @@ type NewOrder struct {
 	eel.EntityBase
 	Id int
 	Bid string
-	deductableMoney float64
+	deductableMoney int
 	
 	purchaseInfo *PurchaseInfo
 	resourceManager *resource.ResourceManager
@@ -34,7 +34,7 @@ func (this *NewOrder) GetBid() string {
 	return this.Bid
 }
 
-func (this *NewOrder) GetDeductableMoney() float64 {
+func (this *NewOrder) GetDeductableMoney() int {
 	if this.deductableMoney == 0 {
 	
 	}
@@ -165,7 +165,7 @@ func (this *NewOrder) Save() (*Order, error) {
 		moneyInfo := calculateOrderMoneyService.Calculate(resourceManager.Resources, purchaseInfo, this)
 		order = this.saveOrderInDb("order", resourceManager.GetNonProductResources(), purchaseInfo, moneyInfo,nil)
 		
-		finalMoney := 0.0
+		finalMoney := 0
 		for _, resourceGroup := range resourceManager.GroupResourceBySupplier() {
 			moneyInfo = calculateOrderMoneyService.Calculate(resourceGroup.Resources, purchaseInfo, this)
 			finalMoney += moneyInfo.FinalMoney

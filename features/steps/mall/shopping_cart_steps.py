@@ -52,6 +52,7 @@ def step_impl(context, user):
 		for product in product_group['products']:
 			product['count'] = product['purchase_count']
 			product['sku'] = product['sku_display_name']
+			product['price'] = bdd_util.format_price(product['price'])
 
 	for product in actual['invalid_products']:
 		product['count'] = product['purchase_count']

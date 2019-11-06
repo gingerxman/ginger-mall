@@ -50,7 +50,7 @@ func (this *EncodeOrderService) Encode(order *Order) *ROrder {
 		rStatusLogs = append(rStatusLogs, rStatusLog)
 	}
 	
-	var totalProductPrice = 0.0
+	var totalProductPrice = 0
 	var totalPostage = 0.0
 	for _, rInvoice := range rInvoices {
 		totalPostage += rInvoice.Postage
@@ -65,7 +65,7 @@ func (this *EncodeOrderService) Encode(order *Order) *ROrder {
 		Status: order.GetStatusText(),
 		Invoices: rInvoices,
 		Resources: order.GetResources(),
-		FinalMoney: eel.Decimal(order.Money.FinalMoney),
+		FinalMoney: order.Money.FinalMoney,
 		IsDeleted: order.IsDeleted,
 		CreatedAt: order.CreatedAt.Format("2006-01-02 15:04:05"),
 		OperationLogs: rOperationLogs,

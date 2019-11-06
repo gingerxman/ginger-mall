@@ -228,7 +228,7 @@ func (this *Coupon) UseByOrder(order business.IOrder) error {
 	return nil
 }
 
-func (this *Coupon) GetDeductionMoney(orderMoney float64) (float64, error) {
+func (this *Coupon) GetDeductionMoney(orderMoney int) (int, error) {
 	conditions := this.GetRule().GetConditions()
 	type2condition := make(map[string]*simplejson.Json)
 	for _, condition := range conditions{
@@ -238,36 +238,36 @@ func (this *Coupon) GetDeductionMoney(orderMoney float64) (float64, error) {
 	// 全额抵扣
 	deductionMoney := orderMoney
 	// 此券为满减
-	limitReachDeductionInfo, ok := type2condition["reach_deduction"]
-	if ok{
-		dataStr,_ := json.Marshal(limitReachDeductionInfo)
-		var aa struct {
-			Deduction json.Number `json:"deduction"`
-			Reach json.Number `json:"reach"`
-		}
-		_ = json.Unmarshal([]byte(string(dataStr)), &aa)
-		deductionMoney, _ = aa.Deduction.Float64()
-		limitMoney, _ := aa.Reach.Float64()
-		if limitMoney > orderMoney {
-			eel.Logger.Error("[validation] coupon({}) limited money({}) small than total order money({})", this.Code, limitMoney, orderMoney)
-			return deductionMoney, eel.NewBusinessError("coupon:order_money_small", fmt.Sprintf("订单金额小于限制的金额"))
-		}
-	}
-	// 现金抵扣券
-	limitDeductionInfo, ok := type2condition["deduction"]
-	if ok {
-		limitDeductionInfo = limitDeductionInfo.Get("amount")
-		deduction := limitDeductionInfo.MustFloat64()
-		deductionMoney = deduction
-	}
-	// 打折券
-	limitDiscountInfo, ok := type2condition["discount"]
-	if ok {
-		limitDiscountInfo := limitDiscountInfo.Get("amount")
-		discount := limitDiscountInfo.MustFloat64()
-		discountRatio := discount/100
-		deductionMoney = orderMoney * (1-discountRatio)
-	}
+	//limitReachDeductionInfo, ok := type2condition["reach_deduction"]
+	//if ok{
+	//	dataStr,_ := json.Marshal(limitReachDeductionInfo)
+	//	var aa struct {
+	//		Deduction json.Number `json:"deduction"`
+	//		Reach json.Number `json:"reach"`
+	//	}
+	//	_ = json.Unmarshal([]byte(string(dataStr)), &aa)
+	//	deductionMoney, _ = aa.Deduction.Float64()
+	//	limitMoney, _ := aa.Reach.Float64()
+	//	if limitMoney > orderMoney {
+	//		eel.Logger.Error("[validation] coupon({}) limited money({}) small than total order money({})", this.Code, limitMoney, orderMoney)
+	//		return deductionMoney, eel.NewBusinessError("coupon:order_money_small", fmt.Sprintf("订单金额小于限制的金额"))
+	//	}
+	//}
+	//// 现金抵扣券
+	//limitDeductionInfo, ok := type2condition["deduction"]
+	//if ok {
+	//	limitDeductionInfo = limitDeductionInfo.Get("amount")
+	//	deduction := limitDeductionInfo.MustFloat64()
+	//	deductionMoney = deduction
+	//}
+	//// 打折券
+	//limitDiscountInfo, ok := type2condition["discount"]
+	//if ok {
+	//	limitDiscountInfo := limitDiscountInfo.Get("amount")
+	//	discount := limitDiscountInfo.MustFloat64()
+	//	discountRatio := discount/100
+	//	deductionMoney = orderMoney * (1-discountRatio)
+	//}
 	
 	return deductionMoney, nil
 }

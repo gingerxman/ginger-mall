@@ -22,7 +22,7 @@ type ProductResource struct {
 	Sku string
 	Count int
 	SalesmanId int
-	Price float64
+	Price int
 	poolProduct *product.PoolProduct
 }
 
@@ -34,12 +34,12 @@ func (this *ProductResource) CanSplit() bool {
 	return false
 }
 
-func (this *ProductResource) GetDeductionMoney(deductableMoney float64) float64 {
+func (this *ProductResource) GetDeductionMoney(deductableMoney int) int {
 	return 0
 }
 
-func (this *ProductResource) GetPrice() float64 {
-	return this.poolProduct.GetSku(this.Sku).Price * float64(this.Count)
+func (this *ProductResource) GetPrice() int {
+	return this.poolProduct.GetSku(this.Sku).Price * this.Count
 }
 
 func (this *ProductResource) GetPostage() float64 {
@@ -80,7 +80,7 @@ func (this *ProductResource) ToMap() map[string]interface{} {
 	
 	productResourceInfo["type"] = this.GetType()
 	productResourceInfo["count"] = this.Count
-	productResourceInfo["total_price"] = float64(this.Count) * sku.Price
+	productResourceInfo["total_price"] = this.Count * sku.Price
 	productResourceInfo["price"] = sku.Price
 	productResourceInfo["deduction_money"] = this.GetDeductionMoney(0)
 	productResourceInfo["product"] = productInfo

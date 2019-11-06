@@ -7,7 +7,7 @@ type RShoppingCartProduct struct {
 	SkuName string `json:"sku_name"`
 	SkuDisplayName string `json:"sku_display_name"`
 	Thumbnail string `json:"thumbnail"`
-	Price string `json:"price"`
+	Price int `json:"price"`
 	Stocks int `json:"stocks"`
 	PurchaseCount int `json:"purchase_count"`
 }

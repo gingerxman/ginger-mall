@@ -79,7 +79,7 @@ type Order struct {
 	PaymentType string
 	Postage float64
 	PostageStrategy int `gorm:"default:0"`//运费策略
-	FinalMoney float64
+	FinalMoney int
 	EnableLogistics bool //是否需要物流
 	ShipName string //收货人姓名
 	ShipPhone string //收货人电话
@@ -103,7 +103,7 @@ type OrderHasProduct struct {
 	ProductName string
 	ProductSkuName string
 	ProductSkuDisplayName string
-	Price float64
+	Price int
 	Weight float64
 	Count int
 	Thumbnail string //商品图片

@@ -2,7 +2,6 @@ package shopping_cart
 
 import (
 	"context"
-	"fmt"
 	
 	"github.com/gingerxman/eel"
 )
@@ -20,11 +19,11 @@ func NewEncodeShoppingCartService(ctx context.Context) *EncodeShoppingCartServic
 func (this *EncodeShoppingCartService) encodeProducts(shoppingCartProducts []*ShoppingCartProduct) []*RShoppingCartProduct {
 	rValidProducts := make([]*RShoppingCartProduct, 0)
 	for _, shoppingCartProduct := range shoppingCartProducts {
-		price := "0"
+		price := 0
 		stocks := 0
 		if shoppingCartProduct.IsValid() {
 			productSku := shoppingCartProduct.PoolProduct.GetSku(shoppingCartProduct.ProductSkuName)
-			price = fmt.Sprintf("%v", eel.Decimal(productSku.Price))
+			price = productSku.Price
 			stocks = productSku.Stocks
 		}
 		

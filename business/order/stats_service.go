@@ -141,7 +141,7 @@ func (this *OrderStatsService) GetIncrementMoneyTrend(corp business.ICorp, range
 	} else {
 		orders = this.getCorpOrders(this.Ctx, corp, rangeType)
 	}
-	date2money := make(map[string]float64, 0)
+	date2money := make(map[string]int, 0)
 	for _, order := range orders {
 		date := order.CreatedAt.Format("01-02")
 		if money, ok := date2money[date]; ok {
@@ -158,7 +158,7 @@ func (this *OrderStatsService) GetIncrementMoneyTrend(corp business.ICorp, range
 		if money, ok := date2money[date]; ok {
 			points = append(points, &common.ChartPoint{
 				X: date,
-				Y: eel.Decimal(money),
+				Y: eel.Decimal(float64(money) / 100.0),
 			})
 		} else {
 			points = append(points, &common.ChartPoint{

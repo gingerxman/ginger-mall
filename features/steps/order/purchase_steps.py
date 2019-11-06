@@ -155,7 +155,7 @@ def step_impl(context, webapp_user_name):
 	actual = {
 		'bid': order_data['bid'],
 		'status': STATUS2STR[order_data['status']],
-		'final_money': order_data['final_money'],
+		'final_money': bdd_util.format_price(order_data['final_money']),
 		#'postage': order_data['postage'],
 		'delivery_items': [],
 		'imoneys': [resource for resource in order_data['resources'] if resource['type'] == 'imoney']
@@ -169,7 +169,7 @@ def step_impl(context, webapp_user_name):
 			'ship_tel': ship_info['phone'],
 			'ship_address': ship_info['address'],
 			'ship_area': '%s %s %s' % (area['province']['name'], area['city']['name'], area['district']['name']),
-			'final_money': delivery_item['final_money'],
+			'final_money': bdd_util.format_price(delivery_item['final_money']),
 			'product_price': delivery_item['product_price'],
 			'postage': delivery_item['postage']
 		}
@@ -177,7 +177,7 @@ def step_impl(context, webapp_user_name):
 		for product_data in delivery_item['products']:
 			products.append({
 				'name': product_data['name'],
-				'price': product_data['price'],
+				'price': bdd_util.format_price(product_data['price']),
 				'count': product_data['count'],
 				'sku': product_data['sku_display_name']
 			})

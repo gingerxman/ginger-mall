@@ -13,7 +13,7 @@ type IMoneyResource struct {
 	Resource
 	
 	Code string
-	Count float64
+	Count int
 	SourceUserId int
 	DestUserId int
 	FrozenRecordIds []int
@@ -27,11 +27,11 @@ func (this *IMoneyResource) CanSplit() bool {
 	return false
 }
 
-func (this *IMoneyResource) GetDeductionMoney(deductableMoney float64) float64 {
+func (this *IMoneyResource) GetDeductionMoney(deductableMoney int) int {
 	return this.Count
 }
 
-func (this *IMoneyResource) GetPrice() float64 {
+func (this *IMoneyResource) GetPrice() int {
 	return 0
 }
 

@@ -165,7 +165,7 @@ Feature: 购买商品
 		}
 		"""
 
-	@ginger-mall @order
+	@ginger-mall @order @wip
 	Scenario: 4. 购买商品影响库存：购买数量等于库存数量
 		Given jobs登录系统
 		When jobs添加商品
@@ -213,7 +213,7 @@ Feature: 购买商品
 		"""
 
 		#lucy再次购买，库存为0，获得错误消息提示
-		Given lucy登录App
+		Given lucy访问'jobs'的商城
 		When lucy购买'jobs'的商品
 		"""
 		{

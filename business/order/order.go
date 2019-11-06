@@ -20,10 +20,10 @@ import (
 
 type orderMoneyInfo struct {
 	Postage float64 //运费
-	FinalMoney float64 //订单金额
+	FinalMoney int //订单金额
 	EditMoney float64 //修改金额
-	PayMoney float64 //支付金额
-	ProductPrice float64 //商品总价
+	PayMoney int //支付金额
+	ProductPrice int //商品总价
 }
 
 type Order struct {
@@ -74,8 +74,8 @@ func (this *Order) GetBid() string {
 	return this.Bid
 }
 
-func (this *Order) GetDeductableMoney() float64 {
-	return 0.0
+func (this *Order) GetDeductableMoney() int {
+	return 0
 }
 
 func (this *Order) GetStatusText() string{
@@ -208,7 +208,7 @@ func (this *Order) updateInvoices(params gorm.Params){
 	}
 }
 
-func (this *Order) UpdateFinalMoney(finalMoney float64) {
+func (this *Order) UpdateFinalMoney(finalMoney int) {
 	o := eel.GetOrmFromContext(this.Ctx)
 	db := o.Model(&m_order.Order{}).Where("Id", this.Id).Update(gorm.Params{
 		"final_money": finalMoney,

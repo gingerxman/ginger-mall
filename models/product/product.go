@@ -214,8 +214,8 @@ type ProductSku struct {
 	ProductId int
 	Name string //规格名
 	Code string //规格编码
-	Price float64 //商品价格
-	CostPrice float64 //商品成本价
+	Price int //商品价格
+	CostPrice int //商品成本价
 	Stocks int //库存
 	IsDeleted bool `gorm:"default:false"`
 }

@@ -94,7 +94,7 @@ Feature: 将商品添加到购物车
 		}]
 		"""
 
-	@ginger-mall @mall @shopping_cart @wip
+	@ginger-mall @mall @shopping_cart
 	Scenario: 1. 手机用户放入单个商品到购物车
 		# 初始验证
 		Given lucy注册为App用户

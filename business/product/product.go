@@ -63,8 +63,8 @@ func (ps productSkuPropertyInfos) Less(i, j int) bool {
 type productSkuInfo struct {
 	Id int `json:"id"`
 	Name string `json:"name"`
-	Price float64 `json:"price"`
-	CostPrice float64 `json:"cost_price"`
+	Price int `json:"price"`
+	CostPrice int `json:"cost_price"`
 	Stocks int `json:"stocks"`
 	Code string `json:"code"`
 	Properties productSkuPropertyInfos `json:"properties"`

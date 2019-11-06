@@ -156,7 +156,7 @@ func (this *Invoice) GetSettlementData(corpRelatedUserId int, productName string
 		ruleName = ruleData["name"].(string)
 
 		if amount, ok := ruleData["amount"]; ok{
-			settlementAmount = amount.(float64)
+			settlementAmount = amount.(int)
 		}
 		if code, ok := ruleData["imoney_code"]; ok{
 			imoneyCode = code.(string)

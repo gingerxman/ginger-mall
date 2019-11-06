@@ -23,7 +23,7 @@ type CouponResource struct {
 	Code string
 	poolProductIds []int
 	coupon *b_coupon.Coupon
-	deductionMoney float64
+	deductionMoney int
 }
 
 func (this *CouponResource) GetType() string {
@@ -34,19 +34,19 @@ func (this *CouponResource) CanSplit() bool {
 	return false
 }
 
-func (this *CouponResource) GetDeductionMoney(deductableMoney float64) float64 {
+func (this *CouponResource) GetDeductionMoney(deductableMoney int) int {
 	deductionMoney, err := this.GetCoupon().GetDeductionMoney(deductableMoney)
 	if err != nil {
 		eel.Logger.Error(err)
-		return 0.0
+		return 0
 	}
 	
 	this.deductionMoney = deductionMoney
 	return this.deductionMoney
 }
 
-func (this *CouponResource) GetPrice() float64 {
-	return 0.0
+func (this *CouponResource) GetPrice() int {
+	return 0
 }
 
 func (this *CouponResource) GetPostage() float64 {

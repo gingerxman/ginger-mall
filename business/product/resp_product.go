@@ -127,8 +127,8 @@ type RProductSku struct {
 	Name string `json:"name"`
 	DisplayName string `json:"display_name"`
 	Code string `json:"code"`
-	Price float64 `json:"price"`
-	CostPrice float64 `json:"cost_price"`
+	Price int `json:"price"`
+	CostPrice int `json:"cost_price"`
 	Stocks int `json:"stocks"`
 	PropertyValues []*RProductPropertyValue `json:"property_values"`
 }

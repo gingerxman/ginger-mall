@@ -70,8 +70,8 @@ func (this *ParseResourceService) parseProductFromOrderResource(productsArray []
 	count, _ := data["count"].(json.Number).Int64()
 	productResource.Count = int(count)
 
-	price, _ := data["price"].(json.Number).Float64()
-	productResource.Price = price
+	price, _ := data["price"].(json.Number).Int64()
+	productResource.Price = int(price)
 
 	productResource.Sku = productData["sku_name"].(string)
 
@@ -125,8 +125,8 @@ func (this *ParseResourceService) parseProductResource(productsArray []interface
 		count, _ := data["count"].(json.Number).Int64()
 		productResource.Count = int(count)
 
-		price, _ := data["price"].(json.Number).Float64()
-		productResource.Price = price
+		price, _ := data["price"].(json.Number).Int64()
+		productResource.Price = int(price)
 
 		productResource.Sku = data["sku"].(string)
 		productResource.Ctx = this.Ctx
@@ -170,8 +170,8 @@ func (this *ParseResourceService) parseIMoneyResource(imoneysArray []interface{}
 
 		resource := NewIMoneyResource(this.Ctx)
 
-		count, _ := data["count"].(json.Number).Float64()
-		resource.Count = count
+		count, _ := data["count"].(json.Number).Int64()
+		resource.Count = int(count)
 		resource.Code = data["code"].(string)
 		resource.DestUserId = destUserId
 		resource.Ctx = this.Ctx
