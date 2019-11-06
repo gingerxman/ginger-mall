@@ -51,11 +51,11 @@ def step_impl(context, user):
 		#product_group['supplier'] = product_group['supplier']['name']
 		for product in product_group['products']:
 			product['count'] = product['purchase_count']
-			product['model'] = product['model_name']
+			product['sku'] = product['sku_display_name']
 
 	for product in actual['invalid_products']:
 		product['count'] = product['purchase_count']
-		product['model'] = product['model_name']
+		product['sku'] = product['sku_display_name']
 
 	expected = json.loads(context.text)
 	bdd_util.assert_dict(expected, actual)

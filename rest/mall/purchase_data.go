@@ -1,6 +1,7 @@
 package mall
 
 import (
+	"fmt"
 	"github.com/gingerxman/eel"
 	"github.com/gingerxman/ginger-mall/business/mall/ship_info"
 	"github.com/gingerxman/ginger-mall/business/product"
@@ -89,11 +90,12 @@ func (this *PurchaseData) getProductDatas(ctx *eel.Context) ([]*product.PoolProd
 	poolProducts := make([]*product.PoolProduct, 0)
 	if productInfosStr != "" {
 		productInfos := this.parseProductInfo(productInfosStr)
-		id2info := make(map[int]*_ProductInfo)
+		sku2info := make(map[string]*_ProductInfo)
 		poolProductIds := make([]int, 0)
 		for _, productInfo := range productInfos {
 			poolProductIds = append(poolProductIds, productInfo.Id)
-			id2info[productInfo.Id] = productInfo
+			sku := fmt.Sprintf("%d_%s", productInfo.Id, productInfo.SkuName)
+			sku2info[sku] = productInfo
 		}
 		
 		//获取pool products
@@ -107,11 +109,19 @@ func (this *PurchaseData) getProductDatas(ctx *eel.Context) ([]*product.PoolProd
 			id2product[poolProduct.Id] = poolProduct
 		}
 		
-		//构建product datas
+		//获取pool product的编码结果集合
 		encodedProducts := product.NewEncodePoolProductService(bCtx).EncodeMany(poolProducts)
-		for _, encodedProduct := range encodedProducts {
-			productInfo := id2info[encodedProduct.Id]
-			poolProduct := id2product[encodedProduct.Id]
+		id2eproduct := make(map[int]*product.RPoolProduct, 0)
+		for _, eproduct := range encodedProducts {
+			id2eproduct[eproduct.Id] = eproduct
+		}
+		
+		//构建product datas
+		//用户可能购买相同product id，但不同sku的商品，上面获取商品数据时，进行了id去重，这里要通过原始的productInfos数据构造返回的结果数据
+		for _, productInfo := range productInfos {
+			poolProduct := id2product[productInfo.Id]
+			encodedProduct := id2eproduct[productInfo.Id]
+			
 			productSku := poolProduct.GetSku(productInfo.SkuName)
 			productDatas = append(productDatas, eel.Map{
 				"id": encodedProduct.Id,

@@ -48,7 +48,7 @@ Feature: 购买商品
 
 		Given lucy注册为App用户
 
-	@ginger-mall @order @wip
+	@ginger-mall @order
 	Scenario: 1. App用户能购买单个商品
 		Given jobs登录系统
 		When jobs添加商品

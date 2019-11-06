@@ -94,7 +94,7 @@ Feature: 将商品添加到购物车
 		}]
 		"""
 
-	@ginger-mall @mall @shopping_cart
+	@ginger-mall @mall @shopping_cart @wip
 	Scenario: 1. 手机用户放入单个商品到购物车
 		# 初始验证
 		Given lucy注册为App用户
@@ -210,7 +210,7 @@ Feature: 将商品添加到购物车
 				}, {
 					"name": "商品6",
 					"price": 11.00,
-					"model": "M 蓝色",
+					"sku": "M 蓝色",
 					"count": 2
 				}]
 			}],
@@ -326,12 +326,12 @@ Feature: 将商品添加到购物车
 					"name": "商品3",
 					"price": 7.00,
 					"count": 1,
-					"model": "M"
+					"sku": "M"
 				}, {
 					"name": "商品3",
 					"price": 8.00,
 					"count": 2,
-					"model": "S"
+					"sku": "S"
 				}]
 			}],
 			"invalid_products": []
@@ -383,13 +383,13 @@ Feature: 将商品添加到购物车
 					"name": "商品3",
 					"price": 8.00,
 					"count": 2,
-					"model": "S"
+					"sku": "S"
 				}]
 			}],
 			"invalid_products": [{
 				"name": "商品3",
 				"count": 1,
-				"model": "M"
+				"sku": "M"
 			}]
 		}
 		"""
@@ -415,10 +415,10 @@ Feature: 将商品添加到购物车
 			"product_groups": [{
 				"products": [{
 					"name": "商品3",
-					"model": "M"
+					"sku": "M"
 				}, {
 					"name": "商品4",
-					"model": "M"
+					"sku": "M"
 				}]
 			}],
 			"invalid_products": []
@@ -445,12 +445,12 @@ Feature: 将商品添加到购物车
 			"product_groups": [{
 				"products": [{
 					"name": "商品3",
-					"model": "M"
+					"sku": "M"
 				}]
 			}],
 			"invalid_products": [{
 				"name": "商品4",
-				"model": "M"
+				"sku": "M"
 			}]
 		}
 		"""
@@ -582,12 +582,12 @@ Feature: 将商品添加到购物车
 					"name": "商品3",
 					"price": 7.00,
 					"count": 1,
-					"model": "M"
+					"sku": "M"
 				}, {
 					"name": "商品3",
 					"price": 8.00,
 					"count": 1,
-					"model": "S"
+					"sku": "S"
 				}]
 			}],
 			"invalid_products": []
@@ -639,13 +639,13 @@ Feature: 将商品添加到购物车
 					"name": "商品3",
 					"price": 7.00,
 					"count": 1,
-					"model": "M",
+					"sku": "M",
 					"stocks": 3
 				}, {
 					"name": "商品3",
 					"price": 10.00,
 					"count": 1,
-					"model": "S"
+					"sku": "S"
 				}]
 			}],
 			"invalid_products": []

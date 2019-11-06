@@ -2,6 +2,7 @@ package order
 
 import (
 	"encoding/json"
+	"github.com/davecgh/go-spew/spew"
 	"github.com/gingerxman/eel"
 	"github.com/gingerxman/ginger-mall/business/account"
 	b_order "github.com/gingerxman/ginger-mall/business/order"
@@ -190,6 +191,7 @@ func (this *Order) parsePurchaseInfo(ctx *eel.Context) *b_order.PurchaseInfo {
 	purchaseInfo.BizCode = bizCode
 	purchaseInfo.SalesmanId, _ = req.GetInt("salesman_id", 0)
 	purchaseInfo.ShoppingCartItemIds = req.GetIntArray("shopping_cart_item_ids")
+	spew.Dump(purchaseInfo)
 	
 	productsArray := req.GetJSONArray("products")
 	imoneysArray := req.GetJSONArray("imoney_usages")
