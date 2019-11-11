@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/davecgh/go-spew/spew"
 	
 	"github.com/gingerxman/eel"
 	"github.com/gingerxman/ginger-mall/business"
@@ -29,25 +30,33 @@ func (this *IMoneyResourceAllocator) Allocate(resource business.IResource, newOr
 		return errors.New(fmt.Sprintf("invalid_imoney_source_user_id(%d)", imoneyResource.SourceUserId))
 	}
 	
-	user := users[0]
+	//user := users[0]
 	// TODO: 检查LoginAs
-	resp, err := eel.NewResource(this.Ctx).LoginAs(user.Unionid).Put("gplutus", "imoney.frozen_record", eel.Map{
+	resp, err := eel.NewResource(this.Ctx).Put("ginger-finance", "imoney.frozen_record", eel.Map{
 		"imoney_code": imoneyResource.Code,
 		"amount": imoneyResource.Count,
-		"type": 1,
-		"remark": "使用虚拟资产购买商品",
+		"type": "consume",
+		"remark": "创建订单",
 	})
 		
 	if err != nil {
 		eel.Logger.Error(err)
+		if err.Error() == "business_error" {
+			if resp.ErrCode() == "frozen_record:not_enough_balance" {
+				return errors.New("imoney_resource:not_enough_balance")
+			}
+		}
 		return err
 	}
+	
 	if resp.IsSuccess(){
-		recordId, err := resp.RespData.Get("frozen_record_id").Int()
+		recordId, err := resp.Data().Get("frozen_record_id").Int()
 		if err == nil{
 			imoneyResource.AddFrozenRecord(recordId)
 		}
 	}
+	
+	spew.Dump(imoneyResource)
 
 	return nil
 }

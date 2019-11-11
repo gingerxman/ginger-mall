@@ -38,9 +38,8 @@ func (this *UserRepository) makeUsers(userDatas []interface{}) []*User {
 func (this *UserRepository) GetUsers(ids []int) []*User {
 	options := make(map[string]interface{})
 	options["with_role_info"] = true
-	resp, err := eel.NewResource(this.Ctx).Get("gskep", "account.users", eel.Map{
+	resp, err := eel.NewResource(this.Ctx).Get("ginger-account", "user.users", eel.Map{
 		"ids": eel.ToJsonString(ids),
-		"with_options": eel.ToJsonString(options),
 	})
 
 	if err != nil {
@@ -51,22 +50,6 @@ func (this *UserRepository) GetUsers(ids []int) []*User {
 	respData := resp.Data()
 	userDatas := respData.Get("users")
 	fmt.Println(userDatas)
-	return this.makeUsers(userDatas.MustArray())
-}
-
-func (this *UserRepository) GetUsersWithOptions(ids []int, options map[string]interface{}) []*User {
-	resp, err := eel.NewResource(this.Ctx).Get("gskep", "account.users", eel.Map{
-		"ids": eel.ToJsonString(ids),
-		"with_options": eel.ToJsonString(options),
-	})
-
-	if err != nil {
-		eel.Logger.Error(err)
-		return nil
-	}
-
-	respData := resp.Data()
-	userDatas := respData.Get("users")
 	return this.makeUsers(userDatas.MustArray())
 }
 

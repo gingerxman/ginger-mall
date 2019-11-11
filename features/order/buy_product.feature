@@ -165,7 +165,7 @@ Feature: 购买商品
 		}
 		"""
 
-	@ginger-mall @order @wip
+	@ginger-mall @order
 	Scenario: 4. 购买商品影响库存：购买数量等于库存数量
 		Given jobs登录系统
 		When jobs添加商品

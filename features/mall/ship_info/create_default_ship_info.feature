@@ -20,7 +20,7 @@ Feature: 设置默认收货地址
 @ginger-mall @mall
 Scenario: 手机用户设置默认收货地址
 	# 初始验证
-	Given lucy登录App
+	Given lucy访问'jobs'的商城
     #  创建收货地址
 	When lucy创建收货地址
 		"""

@@ -33,10 +33,10 @@ def step_impl(context, user):
 	})
 	bdd_util.assert_api_call_success(resp)
 
-@Given(u"{user}登录App")
-def step_impl(context, user):
-	context.client = bdd_client.login('app', user, password=None, context=context)
-	context.is_app_user = True
+# @Given(u"{user}登录App")
+# def step_impl(context, user):
+# 	context.client = bdd_client.login('app', user, password=None, context=context)
+# 	context.is_app_user = True
 
 @Given(u"{user}访问'{corpuser_name}'的商城")
 def step_impl(context, user, corpuser_name):
@@ -65,6 +65,9 @@ def step_impl(context, user, corpuser_name):
 def step_impl(context):
 	from features.bdd.client import RestClient
 	rest_client = RestClient()
+	response = rest_client.put('ginger-finance:dev.bdd_reset')
+	bdd_util.assert_api_call_success(response)
+
 	response = rest_client.put('ginger-account:dev.bdd_reset')
 	bdd_util.assert_api_call_success(response)
 

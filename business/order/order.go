@@ -273,9 +273,10 @@ func (this *Order) Pay(args ...string) {
 	this.Status = targetStatus
 	this.save()
 	NewOrderPaidService(this.Ctx).AfterPaid(this)
+	
 	//如果是自动完成订单，则进行自动完成的检查
 	if this.isAutoFinishOrder() {
-		//因为自动完成的订单都是order与invoice合一的，所以可以直接强制转换为invoice
+		//因为自动完成的订单都是虚拟商品，order与invoice合一的，所以可以直接强制转换为invoice
 		invoice := NewInvoiceFromOrder(this.Ctx, this)
 		invoice.ForceFinish()
 	}
@@ -387,7 +388,7 @@ func (this *Order) ChangeStatusToNonsense() {
 //以下情况可以自动完成：
 // 1. final_money = 0
 func (this *Order) ShouldAutoPay() bool {
-	return this.Money.FinalMoney == 0.0
+	return this.Money.FinalMoney == 0
 }
 
 func NewOrderFromModel(ctx context.Context, model *m_order.Order) *Order {

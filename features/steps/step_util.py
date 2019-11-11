@@ -44,3 +44,7 @@ def get_user_by_name(client, name):
 	})
 	return resp
 
+def get_user_id_by_name(client, name):
+	resp = get_user_by_name(client, name)
+	return resp.data['id']
+
