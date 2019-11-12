@@ -9,6 +9,7 @@ import (
 type CorpUser struct {
 	eel.EntityBase
 	Id         int
+	Name string
 	CreatedAt  time.Time
 }
 

@@ -14,7 +14,7 @@ type LogisticsParams struct {
 	Shipper string `json:"shipper"`
 }
 
-func NewParseLogisticsParams(shipInfo string) *LogisticsParams{
+func ParseLogisticsParams(shipInfo string) *LogisticsParams{
 	logisticsParams := new(LogisticsParams)
 	if shipInfo != ""{
 		financeInfoBytes := []byte(shipInfo)

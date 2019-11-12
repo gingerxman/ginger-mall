@@ -47,6 +47,9 @@ func init() {
 	 */
 	eel.RegisterResource(&order.Order{})
 	eel.RegisterResource(&order.PayedOrder{})
+	eel.RegisterResource(&order.ConfirmedInvoice{})
+	eel.RegisterResource(&order.ShippedInvoice{})
+	eel.RegisterResource(&order.FinishedInvoice{})
 	eel.RegisterResource(&order.Orders{})
 	eel.RegisterResource(&order.UserOrders{})
 	eel.RegisterResource(&order.OrderStatus{})

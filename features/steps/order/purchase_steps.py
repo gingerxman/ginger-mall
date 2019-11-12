@@ -103,6 +103,8 @@ def step_impl(context, app_user, corpuser_name):
 	imoney_usages = []
 	if 'imoneys' in input_data:
 		imoney_usages = input_data['imoneys']
+	for imoney_usage in imoney_usages:
+		imoney_usage['count'] = int(round(imoney_usage['count']*100, 0))
 
 	#message
 	message = input_data.get('message', '')
@@ -167,7 +169,7 @@ def step_impl(context, webapp_user_name):
 
 		actual['imoneys'].append({
 			'code': resource['code'],
-			'count': resource['count'],
+			'count': bdd_util.format_price(resource['count']),
 			'deduction_money': bdd_util.format_price(resource['deduction_money'])
 		})
 
@@ -204,7 +206,7 @@ def step_impl(context, webapp_user_name):
 
 			imoneys.append({
 				'code': resource['code'],
-				'count': resource['count'],
+				'count': bdd_util.format_price(resource['count']),
 				'deduction_money': bdd_util.format_price(resource['deduction_money'])
 			})
 		delivery_item_data['imoneys'] = imoneys
@@ -256,8 +258,15 @@ def step_impl(context, webapp_user_name):
 def step_impl(context, webapp_user_name):
 	latest_invoice_bid = get_latest_invoice_bid()
 
-	response = context.client.put("mall.finished_invoice", {
+	response = context.client.put("order.finished_invoice", {
 		"bid": latest_invoice_bid
+	})
+	bdd_util.assert_api_call_success(response)
+
+	# 发起结算
+	response = context.client.put("ginger-finance:clearance.order_clearance", {
+		"bid": latest_invoice_bid,
+		"sync": True
 	})
 	bdd_util.assert_api_call_success(response)
 

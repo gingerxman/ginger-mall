@@ -28,7 +28,7 @@ func (this *IMoneyResource) CanSplit() bool {
 }
 
 func (this *IMoneyResource) GetDeductionMoney(deductableMoney int) int {
-	return this.Count * 100
+	return this.Count
 }
 
 func (this *IMoneyResource) GetPrice() int {

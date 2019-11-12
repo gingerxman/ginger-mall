@@ -36,7 +36,7 @@ def step_impl(context, user, amount, imoney_code):
 		"source_user_id": 0,#client.cur_user_id,
 		"dest_user_id": user_id,
 		"imoney_code": imoney_code,
-		"amount": amount,
+		"amount": int(amount) * 100,
 		"bid": "bdd"
 	}
 	resp = context.client.put('ginger-finance:imoney.transfer', data)
@@ -51,40 +51,23 @@ def step_impl(context, user_name, imoney_code):
 	resp = context.client.get('ginger-finance:imoney.balance', data)
 	bdd_util.assert_api_call_success(resp)
 
-	actual = resp.data
+	actual = bdd_util.format_price(resp.data)
 
 	expected = json.loads(context.text)['balance']
 	assert expected == actual, "e(%d) != a(%d)" % (expected, actual)
 
-
-@Then(u"{corpuser_name}能获得酒吧的虚拟资产'{imoney_code}'")
-def step_impl(context, corpuser_name, imoney_code):
-	user_id = get_user_id_by_corpuser_id(context.client, context.client.cur_user_id)
+@Then(u"{user_name}能获得公司的虚拟资产'{imoney_code}'")
+def step_impl(context, user_name, imoney_code):
 	data = {
 		"imoney_code": imoney_code,
-		"_v": 2
+		'view_corp_account': True
 	}
-	resp = context.client.get('gplutus:imoney.balance', data)
+	resp = context.client.get('ginger-finance:imoney.balance', data)
 	bdd_util.assert_api_call_success(resp)
 
-	actual = resp.data['valid_balance']
+	actual = bdd_util.format_price(resp.data)
 
 	expected = json.loads(context.text)['balance']
 	assert expected == actual, "e(%d) != a(%d)" % (expected, actual)
 
-@Then(u"{corpuser_name}能获得平台的虚拟资产'{imoney_code}'")
-def step_impl(context, corpuser_name, imoney_code):
-	platform_user_id = get_platform_user_id(context.client)
-	data = {
-		"imoney_code": imoney_code,
-		"user_ids": json.dumps([platform_user_id]),
-		"_v": 2
-	}
-	resp = context.client.get('gplutus:imoney.users_balance', data)
-	bdd_util.assert_api_call_success(resp)
-
-	actual = resp.data[0]['valid_balance']
-
-	expected = json.loads(context.text)['balance']
-	assert expected == actual, "e(%d) != a(%d)" % (expected, actual)
 
