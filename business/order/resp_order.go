@@ -64,6 +64,7 @@ type RInvoice struct {
 	LogisticsInfo *RInvoiceLogistics `json:"logistics_info"`
 	Resources []map[string]interface{} `json:"resources"`
 	Remark string `json:"remark"`
+	Message string `json:"message"`
 }
 
 type ROrderProduct struct {

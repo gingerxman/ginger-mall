@@ -157,6 +157,7 @@ def step_impl(context, webapp_user_name):
 	actual = {
 		'bid': order_data['bid'],
 		'status': STATUS2STR[order_data['status']],
+		'message': order_data['message'],
 		'final_money': bdd_util.format_price(order_data['final_money']),
 		#'postage': order_data['postage'],
 		'delivery_items': [],

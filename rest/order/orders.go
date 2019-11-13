@@ -51,7 +51,7 @@ func (this *Orders) Get(ctx *eel.Context) {
 	rows := order.NewEncodeOrderService(bCtx).EncodeMany(orders)
 	ctx.Response.JSON(eel.Map{
 		"orders": rows,
-		"page_info": nextPageInfo.ToMap(),
+		"pageinfo": nextPageInfo.ToMap(),
 	})
 }
 

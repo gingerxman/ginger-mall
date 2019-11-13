@@ -48,7 +48,7 @@ Feature: 购买商品
 
 		Given lucy注册为App用户
 
-	@ginger-mall @order
+	@ginger-mall @order @wip
 	Scenario: 1. App用户能购买单个商品
 		Given jobs登录系统
 		When jobs添加商品
@@ -68,6 +68,7 @@ Feature: 购买商品
 			"ship_area": "江苏省 南京市 秦淮区",
 			"ship_address": "创新大厦",
 			"pay_type":"微信支付",
+			"message": "不要辣",
 			"products": [{
 				"name": "商品1",
 				"count": 2
@@ -79,6 +80,7 @@ Feature: 购买商品
 		{
 			"status": "待支付",
 			"final_money": 19.8,
+			"message": "不要辣",
 			"delivery_items": [{
 				"status": "待支付",
 				"final_money": 19.8,

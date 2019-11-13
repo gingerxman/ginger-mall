@@ -96,6 +96,8 @@ func (this *EncodeInvoiceService) Encode(invoice *Invoice) *RInvoice {
 		LogisticsInfo: rLogistics,
 		ShipInfo: rShipInfo,
 		Resources: resources,
+		Remark: invoice.Remark,
+		Message: invoice.Message,
 		CreatedAt: invoice.CreatedAt.Format("2006-01-02 15:04:05"),
 	}
 }

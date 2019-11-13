@@ -52,7 +52,7 @@ Feature: 使用imoney购买商品
 
 		Given lucy注册为App用户
 
-	@ginger-mall @order @order.imoney @wip
+	@ginger-mall @order @order.imoney
 	Scenario: 1 使用不足商品价格的虚拟资产进行购买
 		#初始化bitcoin
 		Given lucy访问'jobs'的商城

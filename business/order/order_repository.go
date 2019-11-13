@@ -229,6 +229,12 @@ func (this *OrderRepository) GetPagedOrdersForUserInCorp(user business.IUser, co
 	return this.GetPagedOrders(filters, page, orderExprs...)
 }
 
+func (this *OrderRepository) GetPagedInvoicesForCorp(corp business.ICorp, filters eel.Map, page *eel.PageInfo, orderExprs ...string) ([]*Order, eel.INextPageInfo) {
+	filters["type"] = m_order.ORDER_TYPE_PRODUCT_INVOICE
+	
+	return this.GetPagedOrdersForCorp(corp, filters, page, orderExprs...)
+}
+
 func (this *OrderRepository) GetOrderByBid(bid string) *Order {
 	filters := eel.Map{
 		"bid": bid,

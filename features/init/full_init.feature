@@ -247,6 +247,7 @@ Scenario: 初始化系统数据
 			"ship_tel": "13811223344",
 			"ship_area": "江苏省 南京市 秦淮区",
 			"ship_address": "夫子庙",
+			"message": "上午上班，下午送",
 			"products": [{
 				"name": "东坡肘子",
 				"count": 1
