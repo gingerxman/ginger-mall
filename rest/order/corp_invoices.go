@@ -1,6 +1,7 @@
 package order
 
 import (
+	"github.com/davecgh/go-spew/spew"
 	"github.com/gingerxman/eel"
 	"github.com/gingerxman/ginger-mall/business/account"
 	"github.com/gingerxman/ginger-mall/business/order"
@@ -26,6 +27,7 @@ func (this *CorpInvoices) Get(ctx *eel.Context) {
 	bCtx := ctx.GetBusinessContext()
 
 	filters := req.GetOrmFilters()
+	spew.Dump(filters)
 	pageInfo := req.GetPageInfo()
 	
 	corp := account.GetCorpFromContext(bCtx)

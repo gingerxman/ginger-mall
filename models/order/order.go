@@ -19,8 +19,8 @@ const ORDER_STATUS_NONSENSE = 999 //状态无意义
 var STATUS2STR = map[int]string{
 	ORDER_STATUS_WAIT_PAY: "wait_pay",
 	ORDER_STATUS_PAYING: "paying",
-	ORDER_STATUS_CANCEL: "cancelled",
-	ORDER_STATUS_PAYED_NOT_SHIP: "paid",
+	ORDER_STATUS_CANCEL: "canceled",
+	ORDER_STATUS_PAYED_NOT_SHIP: "wait_ship",
 	ORDER_STATUS_PAYED_SHIPED: "shipped",
 	ORDER_STATUS_SUCCESSED: "finished",
 	ORDER_STATUS_REFUNDING: "refunding",
@@ -32,8 +32,8 @@ var STATUS2STR = map[int]string{
 var STR2STATUS = map[string]int {
 	"wait_pay": ORDER_STATUS_WAIT_PAY,
 	"paying": ORDER_STATUS_PAYING,
-	"cancelled": ORDER_STATUS_CANCEL,
-	"paid": ORDER_STATUS_PAYED_NOT_SHIP,
+	"canceled": ORDER_STATUS_CANCEL,
+	"wait_ship": ORDER_STATUS_PAYED_NOT_SHIP,
 	"shipped": ORDER_STATUS_PAYED_SHIPED,
 	"finished": ORDER_STATUS_SUCCESSED,
 	"refunding": ORDER_STATUS_REFUNDING,
@@ -75,6 +75,7 @@ type Order struct {
 	OriginalOrderId int `gorm:"index"` //出货单所属的订单id
 	Status int //订单状态
 	Remark string `gorm:"type:text"`//订单备注
+	CancelReason string `gorm:size:256` // 取消订单的理由
 	CustomerMessage string //客户留言
 	PaymentType string
 	Postage float64
@@ -125,7 +126,7 @@ var OPERATONTYPE2CODE = map[int]string {
 
 type OrderOperationLog struct {
 	eel.Model
-	OrderBid string `gorm:index;size:160`
+	OrderBid string `gorm:index;size:40`
 	Type int
 	Remark string `gorm:"type:text"`
 	Action string

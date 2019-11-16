@@ -67,7 +67,6 @@ func (this *EncodeOrderService) Encode(order *Order) *ROrder {
 		Resources: order.GetResources(),
 		FinalMoney: order.Money.FinalMoney,
 		IsDeleted: order.IsDeleted,
-		CreatedAt: order.CreatedAt.Format("2006-01-02 15:04:05"),
 		OperationLogs: rOperationLogs,
 		StatusLogs: rStatusLogs,
 		Remark : order.Remark,
@@ -76,6 +75,9 @@ func (this *EncodeOrderService) Encode(order *Order) *ROrder {
 		
 		ProductPrice: totalProductPrice,
 		Postage: totalPostage,
+		
+		PaymentTime: order.PaymentTime.Format("2006-01-02 15:04:05"),
+		CreatedAt: order.CreatedAt.Format("2006-01-02 15:04:05"),
 	}
 }
 

@@ -78,6 +78,21 @@ func (this *EncodeInvoiceService) Encode(invoice *Invoice) *RInvoice {
 		rLogistics.Shipper = invoice.Logistics.Shipper
 	}
 	
+	// 编码ROperationLog
+	rOperationLogs:= make([]*ROperationLog, 0)
+	for _, operationLog := range invoice.OperationLogs {
+		rOperationLog := &ROperationLog{
+			Id: operationLog.Id,
+			OrderBid: operationLog.OrderBid,
+			Type: operationLog.Type,
+			Remark: operationLog.Remark,
+			Action: operationLog.Action,
+			Operator: operationLog.Operator,
+			CreatedAt: operationLog.CreatedAt.Format("2006-01-02 15:04:05"),
+		}
+		rOperationLogs = append(rOperationLogs, rOperationLog)
+	}
+	
 	var resources []map[string]interface{}
 	err := json.Unmarshal([]byte(invoice.Resources), &resources)
 	if err != nil {
@@ -94,10 +109,12 @@ func (this *EncodeInvoiceService) Encode(invoice *Invoice) *RInvoice {
 		IsCleared: invoice.IsCleared,
 		Products: rProducts,
 		LogisticsInfo: rLogistics,
+		OperationLogs: rOperationLogs,
 		ShipInfo: rShipInfo,
 		Resources: resources,
 		Remark: invoice.Remark,
 		Message: invoice.Message,
+		PaymentTime: invoice.PaymentTime.Format("2006-01-02 15:04:05"),
 		CreatedAt: invoice.CreatedAt.Format("2006-01-02 15:04:05"),
 	}
 }

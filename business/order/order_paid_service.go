@@ -36,7 +36,7 @@ func (this *OrderPaidService) AfterPaid(order *Order){
 			invoice := NewInvoiceFromOrder(this.Ctx, order)
 			if err != nil || !resp.IsSuccess(){
 				// 充值失败，订单取消
-				invoice.Cancel()
+				invoice.Cancel("充值失败")
 			}else{
 				invoice.ForceFinish()
 			}

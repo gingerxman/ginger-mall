@@ -279,13 +279,23 @@ func (this *Invoice) UpdateLogistics(shipInfo *b_order_params.LogisticsParams) {
 }
 
 // Cancel 取消出货单
-func (this *Invoice) Cancel(){
+func (this *Invoice) Cancel(reason string){
 	if this.Status == m_order.ORDER_STATUS_WAIT_PAY  || this.Status == m_order.ORDER_STATUS_PAYING{
+		// 释放出货单中使用的resource
 		resources := resource.NewParseResourceService(this.Ctx).ParseFromOrderResources(this.GetResources())
 		resource.NewAllocateResourceService(this.Ctx).Release(resources)
-
+		
+		o := eel.GetOrmFromContext(this.Ctx)
 		this.Status = m_order.ORDER_STATUS_CANCEL
-		this.save()
+		db := o.Model(&m_order.Order{}).Where("id", this.Id).Update(gorm.Params{
+			"status": this.Status,
+			"cancel_reason": reason,
+			"updated_at": time.Now(),
+		})
+		if db.Error != nil {
+			eel.Logger.Error(db.Error)
+		}
+
 		// 记录操作日志
 		NewOrderLogService(this.Ctx).LogOperation(&OperationData{
 			Order: this,

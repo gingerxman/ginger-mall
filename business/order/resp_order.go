@@ -10,7 +10,6 @@ type ROrder struct {
 	Invoices []*RInvoice `json:"invoices"`
 	IsDeleted bool `json:"is_deleted"`
 	Resources []map[string]interface{} `json:"resources"`
-	CreatedAt string `json:"created_at"`
 	OperationLogs []*ROperationLog `json:"operation_logs"`
 	StatusLogs []*RStatusLog `json:"status_logs"`
 	Remark string `json:"remark"`
@@ -19,6 +18,9 @@ type ROrder struct {
 	
 	ProductPrice int `json:"product_price"`
 	Postage float64 `json:"postage"`
+	
+	CreatedAt string `json:"created_at"`
+	PaymentTime string `json:"payment_time"`
 }
 
 type RAreaItem struct {
@@ -58,13 +60,14 @@ type RInvoice struct {
 	FinalMoney int `json:"final_money"`
 	ProductPrice int `json:"product_price"`
 	IsCleared bool `json:"is_cleared"`
-	CreatedAt string `json:"created_at"`
 	ShipInfo *RShipInfo `json:"ship_info"`
 	Products []*ROrderProduct `json:"products"`
 	LogisticsInfo *RInvoiceLogistics `json:"logistics_info"`
+	OperationLogs []*ROperationLog `json:"operation_logs"`
 	Resources []map[string]interface{} `json:"resources"`
 	Remark string `json:"remark"`
 	Message string `json:"message"`
+	CreatedAt string `json:"created_at"`
 }
 
 type ROrderProduct struct {

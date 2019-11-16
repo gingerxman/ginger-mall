@@ -167,7 +167,7 @@ func (this *OrderRepository) GetPagedOrdersForCorp(corp business.ICorp, filters 
 	o := eel.GetOrmFromContext(this.Ctx)
 	db := o.Model(&m_order.Order{})
 	
-	db = db.Where("corp_id = ? or supplier_id = ?", corp.GetId(), corp.GetId())
+	db = db.Where("supplier_id", corp.GetId())
 	
 	type2filters := this.parseFilters(filters)
 	if productFilters, ok := type2filters["productFilters"]; ok && productFilters != nil {
@@ -231,7 +231,7 @@ func (this *OrderRepository) GetPagedOrdersForUserInCorp(user business.IUser, co
 
 func (this *OrderRepository) GetPagedInvoicesForCorp(corp business.ICorp, filters eel.Map, page *eel.PageInfo, orderExprs ...string) ([]*Order, eel.INextPageInfo) {
 	filters["type"] = m_order.ORDER_TYPE_PRODUCT_INVOICE
-	
+	spew.Dump(filters)
 	return this.GetPagedOrdersForCorp(corp, filters, page, orderExprs...)
 }
 

@@ -75,6 +75,7 @@ func (this *Order) Get(ctx *eel.Context) {
 	//	invoiceFillOptions["with_settlements"] = true
 	//}
 	fillOptions["with_invoice"] = invoiceFillOptions
+	fillOptions["with_operation_log"] = true
 	fillService.Fill([]*b_order.Order{order}, fillOptions)
 	
 	//encode

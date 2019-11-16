@@ -22,11 +22,13 @@ func (this *FillOrderService) _fillInvoice(invoices []*Invoice, option map[strin
 		return
 	}
 	
+	orders := make([]*Order, 0)
 	ids := make([]int, 0)
 	bids := make([]string, 0)
 	for _, invoice := range invoices {
 		ids = append(ids, invoice.Id)
 		bids = append(bids, invoice.Bid)
+		orders = append(orders, &invoice.Order)
 	}
 	
 	if enableOption, ok := option["with_products"]; ok && enableOption.(bool) {
@@ -35,6 +37,10 @@ func (this *FillOrderService) _fillInvoice(invoices []*Invoice, option map[strin
 	
 	if enableOption, ok := option["with_logistics"]; ok && enableOption.(bool) {
 		this.fillLogistics(invoices, ids, bids)
+	}
+	
+	if withOperationLog, ok := option["with_operation_log"]; ok && withOperationLog.(bool) {
+		this.fillOperationLog(orders, ids)
 	}
 }
 

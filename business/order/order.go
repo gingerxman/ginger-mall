@@ -7,12 +7,11 @@ import (
 	"github.com/bitly/go-simplejson"
 	"github.com/gingerxman/eel/event"
 	
-	"github.com/gingerxman/gorm"
 	"github.com/gingerxman/eel"
+	"github.com/gingerxman/gorm"
 	
 	"github.com/gingerxman/ginger-mall/business/account"
 	"github.com/gingerxman/ginger-mall/business/events"
-	"github.com/gingerxman/ginger-mall/business/order/resource"
 	m_order "github.com/gingerxman/ginger-mall/models/order"
 	"strings"
 	"time"
@@ -258,7 +257,7 @@ func (this *Order) Pay(args ...string) {
 		this.PaymentType = args[0]
 	}
 
-	targetStatus := m_order.ORDER_STATUS_WAIT_SUPPLIER_CONFIRM
+	targetStatus := m_order.ORDER_STATUS_PAYED_NOT_SHIP
 	this.PaymentTime = time.Now()
 	
 	//更改invoice的状态
@@ -280,6 +279,13 @@ func (this *Order) Pay(args ...string) {
 		invoice := NewInvoiceFromOrder(this.Ctx, this)
 		invoice.ForceFinish()
 	}
+	
+	// 记录操作日志
+	orderLogService := NewOrderLogService(this.Ctx)
+	orderLogService.LogOperation(&OperationData{
+		Order: this,
+		Action: ORDER_OPERATION_PAY,
+	})
 }
 
 // Cancellable 是否可删除
@@ -324,14 +330,23 @@ func (this *Order) Refund(){
 }
 
 // Cancel 取消订单
-func (this *Order) Cancel(){
+func (this *Order) Cancel(reason string){
 	if this.Cancellable(){
-		for _, invoince := range this.Invoices{
-			resources := resource.NewParseResourceService(this.Ctx).ParseFromOrderResources(invoince.GetResources())
-			resource.NewAllocateResourceService(this.Ctx).Release(resources)
-		}
+		//for _, invoince := range this.Invoices{
+		//	resources := resource.NewParseResourceService(this.Ctx).ParseFromOrderResources(invoince.GetResources())
+		//	resource.NewAllocateResourceService(this.Ctx).Release(resources)
+		//}
+		
+		o := eel.GetOrmFromContext(this.Ctx)
 		this.Status = m_order.ORDER_STATUS_CANCEL
-		this.save()
+		db := o.Model(&m_order.Order{}).Where("id", this.Id).Update(gorm.Params{
+			"status": this.Status,
+			"cancel_reason": reason,
+			"updated_at": time.Now(),
+		})
+		if db.Error != nil {
+			eel.Logger.Error(db.Error)
+		}
 		
 		// 记录操作日志
 		NewOrderLogService(this.Ctx).LogOperation(&OperationData{
@@ -342,7 +357,7 @@ func (this *Order) Cancel(){
 		// 对所有出货单进行取消操作
 		invoices := NewOrderRepository(this.Ctx).GetInvoicesForOrder(this.Id)
 		for _, invoice := range invoices {
-			invoice.Cancel()
+			invoice.Cancel(reason)
 		}
 		
 		// 异步消息
