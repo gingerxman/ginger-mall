@@ -67,6 +67,7 @@ type RInvoice struct {
 	Resources []map[string]interface{} `json:"resources"`
 	Remark string `json:"remark"`
 	Message string `json:"message"`
+	CancelReason string `json:"cancel_reason"`
 	CreatedAt string `json:"created_at"`
 }
 

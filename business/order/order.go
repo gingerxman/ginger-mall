@@ -48,6 +48,7 @@ type Order struct {
 	
 	Remark string //备注
 	Message string //消费者留言
+	CancelReason string //取消订单的原因
 	
 	IsDeleted bool
 	
@@ -257,13 +258,13 @@ func (this *Order) Pay(args ...string) {
 		this.PaymentType = args[0]
 	}
 
-	targetStatus := m_order.ORDER_STATUS_PAYED_NOT_SHIP
+	targetStatus := m_order.ORDER_STATUS_NONSENSE
 	this.PaymentTime = time.Now()
 	
 	//更改invoice的状态
 	this.updateInvoices(gorm.Params{
 		"type": m_order.ORDER_TYPE_PRODUCT_INVOICE,
-		"status": targetStatus,
+		"status": m_order.ORDER_STATUS_PAYED_NOT_SHIP,
 		"payment_time": this.PaymentTime,
 		"payment_type": this.PaymentType,
 	})
@@ -429,6 +430,7 @@ func NewOrderFromModel(ctx context.Context, model *m_order.Order) *Order {
 	instance.Resources = model.Resources
 	instance.ExtraData = model.ExtraData
 	instance.Message = model.CustomerMessage
+	instance.CancelReason = model.CancelReason
 	
 	instance.Money = &orderMoneyInfo{
 		Postage: model.Postage,

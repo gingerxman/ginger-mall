@@ -114,6 +114,7 @@ func (this *EncodeInvoiceService) Encode(invoice *Invoice) *RInvoice {
 		Resources: resources,
 		Remark: invoice.Remark,
 		Message: invoice.Message,
+		CancelReason: invoice.CancelReason,
 		PaymentTime: invoice.PaymentTime.Format("2006-01-02 15:04:05"),
 		CreatedAt: invoice.CreatedAt.Format("2006-01-02 15:04:05"),
 	}

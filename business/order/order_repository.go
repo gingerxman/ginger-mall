@@ -224,14 +224,22 @@ func (this *OrderRepository) GetPagedOrdersForCorp(corp business.ICorp, filters 
 func (this *OrderRepository) GetPagedOrdersForUserInCorp(user business.IUser, corp business.ICorp, filters eel.Map, page *eel.PageInfo, orderExprs ...string) ([]*Order, eel.INextPageInfo) {
 	filters["user_id"] = user.GetId()
 	filters["corp_id"] = corp.GetId()
-	filters["type"] = m_order.ORDER_TYPE_PRODUCT_ORDER
+	
+	targetStatus := filters["status"]
+	if targetStatus != nil {
+		if targetStatus == "wait_pay" || targetStatus == "all" {
+			filters["type"] = m_order.ORDER_TYPE_PRODUCT_ORDER
+		} else {
+			filters["type"] = m_order.ORDER_TYPE_PRODUCT_INVOICE
+		}
+	}
+	spew.Dump(filters)
 	
 	return this.GetPagedOrders(filters, page, orderExprs...)
 }
 
 func (this *OrderRepository) GetPagedInvoicesForCorp(corp business.ICorp, filters eel.Map, page *eel.PageInfo, orderExprs ...string) ([]*Order, eel.INextPageInfo) {
 	filters["type"] = m_order.ORDER_TYPE_PRODUCT_INVOICE
-	spew.Dump(filters)
 	return this.GetPagedOrdersForCorp(corp, filters, page, orderExprs...)
 }
 

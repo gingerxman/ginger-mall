@@ -33,6 +33,11 @@ func (this *UserOrders) Get(ctx *eel.Context) {
 	corp := account.GetCorpFromContext(bCtx)
 	user := account.GetUserFromContext(bCtx)
 
+	targetStatus, ok := filters["status"]
+	if ok && targetStatus == "wait_review" {
+		// 将待评论转换为"finished"
+		filters["status"] = "finished"
+	}
 	orders, nextPageInfo := order.NewOrderRepository(bCtx).GetPagedOrdersForUserInCorp(user, corp, filters, pageInfo, "-id")
 	
 	fillOptions := eel.Map{}
