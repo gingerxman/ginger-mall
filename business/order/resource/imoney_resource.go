@@ -35,7 +35,7 @@ func (this *IMoneyResource) GetPrice() int {
 	return 0
 }
 
-func (this *IMoneyResource) GetPostage() float64 {
+func (this *IMoneyResource) GetPostage() int {
 	return 0
 }
 

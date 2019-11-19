@@ -25,7 +25,7 @@ type IResource interface {
 	GetType() string //获得资源类型
 	GetDeductionMoney(deductableMoney int) int //获得资源抵扣的金额
 	GetPrice() int //获得资源价格
-	GetPostage() float64 //获得资源的运费
+	GetPostage() int //获得资源的运费
 	IsAllocated() bool //设置资源已申请成功
 	ResetAllocation() //设置资源未申请
 	SetAllocated() //设置资源未申请

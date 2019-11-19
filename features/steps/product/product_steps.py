@@ -206,13 +206,23 @@ def __format_product_post_data(context, product):
 	# 		categories.append(category_id)
 
 	#物流信息
-	postage_type = product.get('postage_type', 'unified')
-	if postage_type == u'系统':
-		postage_type = 'template'
-	logistics_info = {
-		'postage_type': postage_type,
-		'unified_postage_money': str(product.get('unified_postage_money', 0.00))
-	}
+	postage = product.get('postage')
+	if not postage:
+		logistics_info = {
+			'postage_type': 'unified',
+			'unified_postage_money': 0
+		}
+	else:
+		if type(postage) == str or type(postage) == unicode:
+			logistics_info = {
+				'postage_type': 'unified',
+				'unified_postage_money': 0
+			}
+		else:
+			logistics_info = {
+				'postage_type': 'unified',
+				'unified_postage_money': int(round(postage * 100.0, 0))
+			}
 
 	data = {
 		'base_info': json.dumps(base_info),

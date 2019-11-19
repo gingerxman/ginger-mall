@@ -32,7 +32,7 @@ type productMediaInfo struct {
 
 type productLogisticsInfo struct {
 	PostageType string `json:"postage_type"` //运费类型
-	UnifiedPostageMoney string `json:"unified_postage_money"` //统一运费金额
+	UnifiedPostageMoney int `json:"unified_postage_money"` //统一运费金额
 	LimitZoneType int `json:"limit_zone_type"` //仅售禁售类型
 	LimitZoneId int `json:"limit_zone_id"` //仅售禁售模板id
 }
@@ -101,7 +101,7 @@ type Product struct {
 	
 	//logistics info
 	PostageType string
-	UnifiedPostageMoney float64
+	UnifiedPostageMoney int
 	LimitZoneType int
 	LimitZoneId int
 

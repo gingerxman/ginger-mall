@@ -42,7 +42,7 @@ func (this *ProductResource) GetPrice() int {
 	return this.poolProduct.GetSku(this.Sku).Price * this.Count
 }
 
-func (this *ProductResource) GetPostage() float64 {
+func (this *ProductResource) GetPostage() int {
 	if this.poolProduct.UseUnifiedPostage() {
 		return this.poolProduct.GetUnifiedPostageMoney()
 	} else {

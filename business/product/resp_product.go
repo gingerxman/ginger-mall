@@ -39,7 +39,7 @@ type RProductOffshelfPlan struct {
 
 type RProductLogisticsInfo struct {
 	PostageType string `json:"postage_type"`
-	UnifiedPostageMoney float64 `json:"unified_postage_money"`
+	UnifiedPostageMoney int `json:"unified_postage_money"`
 	//PostageConfig *postage.RPostageConfig `json:"postage_config"`
 	LimitZoneType int `json:"limit_zone_type"`
 	LimitZoneTypeCode string `json:"limit_zone_type_code"`

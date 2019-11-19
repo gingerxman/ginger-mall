@@ -2,11 +2,9 @@ package order
 
 import (
 	"context"
-	"fmt"
 	
 	"github.com/gingerxman/eel"
 	"github.com/gingerxman/ginger-mall/business"
-	"github.com/gingerxman/ginger-mall/business/account"
 	"github.com/gingerxman/ginger-mall/business/mall/postage"
 	"github.com/gingerxman/ginger-mall/business/order/resource"
 	"math"
@@ -25,9 +23,9 @@ func NewCalculateOrderPostageService(ctx context.Context) *CalculateOrderPostage
 	return service
 }
 
-func (this *CalculateOrderPostageService) Calculate(productResources []business.IResource, purchaseInfo *PurchaseInfo) float64 {
+func (this *CalculateOrderPostageService) Calculate(productResources []business.IResource, purchaseInfo *PurchaseInfo) int {
 	var useSystemPostageConfigProducts []*resource.SkuMergedProduct
-	var totalPostageMoney float64 = 0.0
+	var totalPostageMoney int = 0
 	
 	mergedProducts := resource.NewMergeSameSkuProductService(this.Ctx).Merge(productResources)
 	
@@ -41,37 +39,37 @@ func (this *CalculateOrderPostageService) Calculate(productResources []business.
 		}
 	}
 	
-	if len(useSystemPostageConfigProducts) > 0 {
-		supplierId := mergedProducts[0].PoolProduct.SupplierId
-		supplierCorp := account.NewCorpFromOnlyId(this.Ctx, supplierId)
-		postageConfig := postage.NewPostageConfigRepository(this.Ctx).GetActivePostageConfigInCorp(supplierCorp)
-		if postageConfig == nil {
-			eel.Logger.Error(fmt.Sprintf("no active postage config for corp(%d)"), supplierId)
-		} else {
-			postage.NewFillPostageConfigService(this.Ctx).FillOne(postageConfig, eel.FillOption{})
-			
-			freeConfig := this.getMatchedFreeConfig(useSystemPostageConfigProducts, purchaseInfo.ShipInfo, postageConfig)
-			if freeConfig == nil {
-				//没有匹配免邮条件，继续检查特殊地区设置
-				specialAreaConfig := this.getMatchedSpecialAreaConfig(useSystemPostageConfigProducts, purchaseInfo.ShipInfo, postageConfig)
-				if specialAreaConfig == nil {
-					//没有特殊地区免邮条件
-					totalPostageMoney += this.calculatePostage(useSystemPostageConfigProducts, postageConfig)
-				} else {
-					//使用SpecialAreaConfig作为PostageConfig
-					tmpPostageConfig := &postage.PostageConfig{
-						FirstWeight: specialAreaConfig.FirstWeight,
-						FirstWeightPrice: specialAreaConfig.FirstWeightPrice,
-						AddedWeight: specialAreaConfig.AddedWeight,
-						AddedWeightPrice: specialAreaConfig.AddedWeightPrice,
-					}
-					totalPostageMoney += this.calculatePostage(useSystemPostageConfigProducts, tmpPostageConfig)
-				}
-			} else {
-				//满足免邮条件
-			}
-		}
-	}
+	//if len(useSystemPostageConfigProducts) > 0 {
+	//	supplierId := mergedProducts[0].PoolProduct.SupplierId
+	//	supplierCorp := account.NewCorpFromOnlyId(this.Ctx, supplierId)
+	//	postageConfig := postage.NewPostageConfigRepository(this.Ctx).GetActivePostageConfigInCorp(supplierCorp)
+	//	if postageConfig == nil {
+	//		eel.Logger.Error(fmt.Sprintf("no active postage config for corp(%d)"), supplierId)
+	//	} else {
+	//		postage.NewFillPostageConfigService(this.Ctx).FillOne(postageConfig, eel.FillOption{})
+	//
+	//		freeConfig := this.getMatchedFreeConfig(useSystemPostageConfigProducts, purchaseInfo.ShipInfo, postageConfig)
+	//		if freeConfig == nil {
+	//			//没有匹配免邮条件，继续检查特殊地区设置
+	//			specialAreaConfig := this.getMatchedSpecialAreaConfig(useSystemPostageConfigProducts, purchaseInfo.ShipInfo, postageConfig)
+	//			if specialAreaConfig == nil {
+	//				//没有特殊地区免邮条件
+	//				totalPostageMoney += this.calculatePostage(useSystemPostageConfigProducts, postageConfig)
+	//			} else {
+	//				//使用SpecialAreaConfig作为PostageConfig
+	//				tmpPostageConfig := &postage.PostageConfig{
+	//					FirstWeight: specialAreaConfig.FirstWeight,
+	//					FirstWeightPrice: specialAreaConfig.FirstWeightPrice,
+	//					AddedWeight: specialAreaConfig.AddedWeight,
+	//					AddedWeightPrice: specialAreaConfig.AddedWeightPrice,
+	//				}
+	//				totalPostageMoney += this.calculatePostage(useSystemPostageConfigProducts, tmpPostageConfig)
+	//			}
+	//		} else {
+	//			//满足免邮条件
+	//		}
+	//	}
+	//}
 	
 	return totalPostageMoney
 }

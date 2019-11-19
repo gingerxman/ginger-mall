@@ -51,7 +51,7 @@ func (this *EncodeOrderService) Encode(order *Order) *ROrder {
 	}
 	
 	var totalProductPrice = 0
-	var totalPostage = 0.0
+	var totalPostage = 0
 	for _, rInvoice := range rInvoices {
 		totalPostage += rInvoice.Postage
 		totalProductPrice += rInvoice.ProductPrice

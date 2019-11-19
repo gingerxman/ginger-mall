@@ -18,9 +18,9 @@ import (
 )
 
 type orderMoneyInfo struct {
-	Postage float64 //运费
+	Postage int //运费
 	FinalMoney int //订单金额
-	EditMoney float64 //修改金额
+	EditMoney int //修改金额
 	PayMoney int //支付金额
 	ProductPrice int //商品总价
 }

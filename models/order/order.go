@@ -78,7 +78,7 @@ type Order struct {
 	CancelReason string `gorm:size:256` // 取消订单的理由
 	CustomerMessage string //客户留言
 	PaymentType string
-	Postage float64
+	Postage int
 	PostageStrategy int `gorm:"default:0"`//运费策略
 	FinalMoney int
 	EnableLogistics bool //是否需要物流

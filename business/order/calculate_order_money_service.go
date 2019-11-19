@@ -18,9 +18,9 @@ func NewCalculateOrderMoneyService(ctx context.Context) *CalculateOrderMoneyServ
 }
 
 func (this *CalculateOrderMoneyService) Calculate(resources []business.IResource, purchaseInfo *PurchaseInfo, newOrder *NewOrder) *orderMoneyInfo {
-	var finalMoney int = 0.0
+	var finalMoney int = 0
 	var productPrice int = 0
-	var postageMoney float64 = 0.0
+	var postageMoney int = 0
 	var deductionMoney int = 0
 	
 	products := make([]business.IResource, 0)

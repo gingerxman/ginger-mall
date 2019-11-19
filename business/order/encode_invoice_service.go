@@ -103,7 +103,7 @@ func (this *EncodeInvoiceService) Encode(invoice *Invoice) *RInvoice {
 		Id: invoice.Id,
 		Bid: invoice.Bid,
 		Status: invoice.GetStatusText(),
-		Postage: eel.Decimal(invoice.Money.Postage),
+		Postage: invoice.Money.Postage,
 		FinalMoney: invoice.Money.FinalMoney,
 		ProductPrice: totalProductPrice,
 		IsCleared: invoice.IsCleared,

@@ -8,7 +8,6 @@ import (
 	"github.com/gingerxman/ginger-mall/business/account"
 	m_product "github.com/gingerxman/ginger-mall/models/product"
 	"github.com/gingerxman/gorm"
-	"strconv"
 	"strings"
 )
 
@@ -342,15 +341,9 @@ func (this *UpdateProductService) updateLogisticsInfo(productId int, logisticsIn
 	}
 
 	o := eel.GetOrmFromContext(this.Ctx)
-
-	unifiedMoney, err := strconv.ParseFloat(logisticsInfo.UnifiedPostageMoney, 64)
-	if err != nil {
-		eel.Logger.Error(err)
-		panic(eel.NewBusinessError("product:invalid_unified_postage_money", logisticsInfo.UnifiedPostageMoney))
-	}
 	db := o.Model(&m_product.ProductLogisticsInfo{}).Where("product_id", productId).Update(gorm.Params{
 		"postage_type": logisticsInfo.PostageType,
-		"unified_postage_money": unifiedMoney,
+		"unified_postage_money": logisticsInfo.UnifiedPostageMoney,
 		"limit_zone_type": logisticsInfo.LimitZoneType,
 		"limit_zone_id": logisticsInfo.LimitZoneId,
 	})

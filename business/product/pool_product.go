@@ -100,7 +100,7 @@ func (this *PoolProduct) UseUnifiedPostage() bool {
 	return this.Product.UseUnifiedPostage()
 }
 
-func (this *PoolProduct) GetUnifiedPostageMoney() float64 {
+func (this *PoolProduct) GetUnifiedPostageMoney() int {
 	return this.Product.UnifiedPostageMoney
 }
 

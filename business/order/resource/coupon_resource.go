@@ -49,8 +49,8 @@ func (this *CouponResource) GetPrice() int {
 	return 0
 }
 
-func (this *CouponResource) GetPostage() float64 {
-	return 0.0
+func (this *CouponResource) GetPostage() int {
+	return 0
 }
 
 func (this *CouponResource) GetRawResourceObject() interface{} {

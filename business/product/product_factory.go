@@ -7,7 +7,6 @@ import (
 	"github.com/gingerxman/eel"
 	"github.com/gingerxman/ginger-mall/business"
 	"github.com/gingerxman/ginger-mall/business/account"
-	"strconv"
 	"strings"
 	
 	m_product "github.com/gingerxman/ginger-mall/models/product"
@@ -81,15 +80,10 @@ func (this *ProductFactory) addLogisticsInfoToProduct(product *Product, logistic
 	o := eel.GetOrmFromContext(this.Ctx)
 	
 	//创建ProductHasProductCategory记录
-	unifiedMoney, err := strconv.ParseFloat(logisticsInfo.UnifiedPostageMoney, 64)
-	if err != nil {
-		eel.Logger.Error(err)
-		panic(eel.NewBusinessError("product:invalid_unified_postage_money", logisticsInfo.UnifiedPostageMoney))
-	}
 	model := m_product.ProductLogisticsInfo{
 		ProductId: product.Id,
 		PostageType: logisticsInfo.PostageType,
-		UnifiedPostageMoney: unifiedMoney,
+		UnifiedPostageMoney: logisticsInfo.UnifiedPostageMoney,
 		LimitZoneType: logisticsInfo.LimitZoneType,
 		LimitZoneId: logisticsInfo.LimitZoneId,
 	}

@@ -103,7 +103,7 @@ type ProductLogisticsInfo struct {
 	Id int `gorm:"primary_key"`
 	ProductId int `gorm:"index"`
 	PostageType string //运费类型
-	UnifiedPostageMoney float64 //统一运费金额
+	UnifiedPostageMoney int //统一运费金额
 	LimitZoneType int
 	LimitZoneId int
 	CreatedAt time.Time `gorm:"auto_now_add;type(datetime)"`

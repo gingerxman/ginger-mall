@@ -17,7 +17,7 @@ type ROrder struct {
 	ExtraData map[string]interface{} `json:"extra_data"`
 	
 	ProductPrice int `json:"product_price"`
-	Postage float64 `json:"postage"`
+	Postage int `json:"postage"`
 	
 	CreatedAt string `json:"created_at"`
 	PaymentTime string `json:"payment_time"`
@@ -56,7 +56,7 @@ type RInvoice struct {
 	Status string `json:"status"`
 	PaymentType string `json:"payment_type"`
 	PaymentTime string `json:"payment_time"`
-	Postage float64 `json:"postage"`
+	Postage int `json:"postage"`
 	FinalMoney int `json:"final_money"`
 	ProductPrice int `json:"product_price"`
 	IsCleared bool `json:"is_cleared"`

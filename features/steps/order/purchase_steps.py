@@ -47,7 +47,7 @@ def get_salesman_id_by_username(client, username):
 
 STATUS2STR = {
 	'wait_pay': u'待支付',
-	'paid': u'待发货',
+	'wait_ship': u'待发货',
 	'finished': u'已完成',
 	'shipped': u'已发货',
 	'wait_confirm': u'待确认',
@@ -185,7 +185,7 @@ def step_impl(context, webapp_user_name):
 			'ship_area': '%s %s %s' % (area['province']['name'], area['city']['name'], area['district']['name']),
 			'final_money': bdd_util.format_price(delivery_item['final_money']),
 			'product_price': bdd_util.format_price(delivery_item['product_price']),
-			'postage': delivery_item['postage']
+			'postage': bdd_util.format_price(delivery_item['postage'])
 		}
 
 		# build product data
