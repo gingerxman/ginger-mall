@@ -96,6 +96,7 @@ func (this *ProductResource) SaveForOrder(order business.IOrder) error {
 	model := &m_order.OrderHasProduct{}
 	model.OrderId = order.GetId()
 	model.ProductId = product.Id
+	model.PoolProductId = poolProduct.Id
 	model.ProductName = product.Name
 	model.Thumbnail = product.Thumbnail
 	model.Count = this.Count

@@ -20,6 +20,7 @@ type PoolProduct struct {
 	Type string
 	SourcePoolProductId int
 	DisplayIndex int
+	SoldCount int
 	SyncAt time.Time
 	CreatedAt time.Time
 
@@ -123,6 +124,7 @@ func NewPoolProductFromModel(ctx context.Context, model *m_product.PoolProduct) 
 	instance.ProductId = model.ProductId
 	instance.ProductType = model.ProductType
 	instance.SupplierId = model.SupplierId
+	instance.SoldCount = model.SoldCount
 	instance.Status = m_product.PPSTATUS2STR[model.Status]
 	instance.Type = m_product.PPTYPE2STR[model.Type]
 	instance.SourcePoolProductId = model.SourcePoolProductId

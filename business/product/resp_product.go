@@ -23,7 +23,7 @@ type RPoolProduct struct {
 	Labels []*RProductLabel `json:"labels"`
 	Category *RLintProductCategory `json:"category"`
 	VisitInfo *RVisitInfo `json:"visit_info"`
-	Sales int `json:"sales"`
+	SoldCount int `json:"sold_count"`
 	IsDeleted bool `json:"is_deleted"`
 	Status string `json:"status"`
 	PlatformProductStatus string `json:"platform_product_status"`

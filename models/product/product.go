@@ -151,6 +151,7 @@ type PoolProduct struct {
 	SupplierId int
 	Status int
 	Type int
+	SoldCount int // 销量
 	SourcePoolProductId int `gorm:"index"` //sync product的source pool product
 	DisplayIndex int
 	SyncAt time.Time `gorm:"type(datetime)"`
