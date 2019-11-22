@@ -5,6 +5,7 @@ import (
 	"github.com/gingerxman/eel/handler/rest/console"
 	"github.com/gingerxman/eel/handler/rest/op"
 	"github.com/gingerxman/ginger-mall/rest/area"
+	"github.com/gingerxman/ginger-mall/rest/consumption"
 	"github.com/gingerxman/ginger-mall/rest/dev"
 	"github.com/gingerxman/ginger-mall/rest/mall"
 	"github.com/gingerxman/ginger-mall/rest/mall/ship_info"
@@ -57,6 +58,11 @@ func init() {
 	eel.RegisterResource(&order.UserOrders{})
 	eel.RegisterResource(&order.OrderStatus{})
 	eel.RegisterResource(&order.OrderRemark{})
+	
+	/*
+	 consumption
+	 */
+	eel.RegisterResource(&consumption.UserConsumptionRecords{})
 	
 	/*
 	 mall

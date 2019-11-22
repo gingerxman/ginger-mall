@@ -163,10 +163,22 @@ func (self *OrderLogistics) TableName() string {
 	return "order_logistics"
 }
 
+type UserConsumptionRecord struct {
+	eel.Model
+	UserId int `orm:index`
+	CorpId int `orm:index`
+	Money int // 消费金额
+	ConsumeCount int //消费次数
+}
+func (self *UserConsumptionRecord) TableName() string {
+	return "order_user_consumption_record"
+}
+
 func init() {
 	eel.RegisterModel(new(Order))
 	eel.RegisterModel(new(OrderHasProduct))
 	eel.RegisterModel(new(OrderOperationLog))
 	eel.RegisterModel(new(OrderStatusLog))
 	eel.RegisterModel(new(OrderLogistics))
+	eel.RegisterModel(new(UserConsumptionRecord))
 }
